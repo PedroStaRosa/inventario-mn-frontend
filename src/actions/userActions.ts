@@ -1,9 +1,10 @@
 "use server";
-
-import { setToken } from "@/lib/auth";
+import { removeToken, setToken } from "@/lib/auth";
 import { getUserFriendlyErrorMessage } from "@/lib/errorHandler";
 import { loginSchema, registerSchema } from "@/schemas/authSchemas";
 import { loginUserService, registerUserService } from "@/services/userService";
+import { redirect } from "next/navigation";
+
 
 export async function loginAction(
   prevState: { success: boolean; error: string; redirectTo?: string } | null,
@@ -93,4 +94,9 @@ export async function registerUserAction(
 
     return { success: false, error: "Erro ao registrar usuário" };
   }
+}
+
+export async function logoutAction() {
+  await removeToken();
+  redirect("/login");
 }

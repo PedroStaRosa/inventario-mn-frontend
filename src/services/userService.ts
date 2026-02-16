@@ -1,5 +1,5 @@
 import { apiClient } from "@/lib/api/client";
-import { LoginResponse, RegisterUserResponse } from "@/types/api";
+import { LoginResponse, RegisterUserResponse, User } from "@/types/api";
 
 interface LoginUserProps {
   email: string;
@@ -33,5 +33,13 @@ export async function registerUserService(
   });
 
   console.log(response);
+  return response;
+}
+
+export async function getUserService(token: string): Promise<User> {
+  const response = await apiClient<User>(`/auth/me`, {
+    method: "GET",
+    token,
+  });
   return response;
 }
