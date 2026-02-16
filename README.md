@@ -206,7 +206,7 @@ Antes de começar, você precisa ter instalado:
 - **Node.js** 18+ ([Download](https://nodejs.org/))
 - **npm** ou **yarn** ou **pnpm** (gerenciador de pacotes)
 - **Git** (para clonar o repositório)
-- **Backend API** rodando (consulte [README do Backend](../doc_Backend/README.md))
+- **Backend API** rodando (consulte [README do Backend](https://github.com/PedroStaRosa/inventario-mn-api/blob/main/README.md)
 
 ---
 
@@ -253,7 +253,7 @@ yarn dev
 pnpm dev
 ```
 
-Acesse [http://localhost:3001](http://localhost:3001) no navegador.
+Acesse [http://localhost:3000](http://localhost:3000) no navegador.
 
 ---
 
@@ -277,12 +277,6 @@ npm test             # Executa testes
 | `NEXT_PUBLIC_API_URL` | URL base da API Backend | `http://localhost:3000/api/v1` |
 | `NODE_ENV` | Ambiente de execução | `development` ou `production` |
 
-### Configuração do ESLint e Prettier
-
-O projeto utiliza ESLint e Prettier para manter consistência de código. Consulte:
-- [ESLINT_PRETTIER_SETUP.md](./doc_config/ESLINT_PRETTIER_SETUP.md)
-
----
 
 ## 📚 Estrutura de Desenvolvimento
 
@@ -321,8 +315,6 @@ O projeto está organizado em **6 sprints de 1 semana** cada:
 - Documentação completa
 - Ajustes finais
 - Configuração de deploy
-
-> 📖 Para mais detalhes, consulte [PLANO_DESENVOLVIMENTO_FRONTEND.md](./doc_Backend/PLANO_DESENVOLVIMENTO_FRONTEND.md)
 
 ---
 
@@ -381,7 +373,7 @@ const response = await apiClient.get('/products', {
 - `POST /api/v1/inventory/import` - Importar CSV
 - `DELETE /api/v1/inventory?id={uuid}` - Deletar
 
-> 📖 Para documentação completa da API, consulte o [README do Backend](../doc_Backend/README.md) ou acesse o Swagger UI em `http://localhost:3000/api-docs`
+> 📖 Para documentação completa da API, consulte o [README do Backend](https://github.com/PedroStaRosa/inventario-mn-api/blob/main/README.md)
 
 ---
 
@@ -457,10 +449,7 @@ CMD ["npm", "start"]
 
 ## 📖 Documentação Adicional
 
-- 📘 [PLANO_DESENVOLVIMENTO_FRONTEND.md](./doc_Backend/PLANO_DESENVOLVIMENTO_FRONTEND.md) - Plano completo de desenvolvimento
-- 📗 [CONTEXTO_Backend.md](./doc_Backend/CONTEXTO_Backend.md) - Documentação técnica do backend
-- 📕 [README Backend](../doc_Backend/README.md) - Documentação da API
-- 📙 [ESLINT_PRETTIER_SETUP.md](./doc_config/ESLINT_PRETTIER_SETUP.md) - Configuração de linting
+- 📕 [README Backend](https://github.com/PedroStaRosa/inventario-mn-api/blob/main/README.md) - Documentação da API
 
 ---
 
