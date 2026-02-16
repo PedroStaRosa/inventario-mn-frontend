@@ -7,7 +7,8 @@ export function getUserFriendlyErrorMessage(error: unknown): string {
 
     // Erros de rede/conexão
     if (
-      errorMessage.includes("failed to fetch") || errorMessage.includes("fetch failed") ||
+      errorMessage.includes("failed to fetch") ||
+      errorMessage.includes("fetch failed") ||
       errorMessage.includes("network error") ||
       errorMessage.includes("failed to parse url")
     ) {
