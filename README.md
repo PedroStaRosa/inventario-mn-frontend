@@ -34,6 +34,7 @@ Sistema web desenvolvido em **Next.js** com **TypeScript** para gerenciamento co
 ## ✨ Features Principais
 
 ### 🔐 Autenticação & Segurança
+
 - ✅ Sistema completo de registro e login
 - ✅ Gerenciamento de token JWT (localStorage/cookies)
 - ✅ Proteção de rotas com middleware
@@ -41,6 +42,7 @@ Sistema web desenvolvido em **Next.js** com **TypeScript** para gerenciamento co
 - ✅ Logout seguro
 
 ### 📦 Gestão de Produtos
+
 - ✅ Listagem de produtos com busca e filtros
 - ✅ Criação individual de produtos
 - ✅ Importação em massa via CSV com preview
@@ -48,6 +50,7 @@ Sistema web desenvolvido em **Next.js** com **TypeScript** para gerenciamento co
 - ✅ Tratamento de erros específicos
 
 ### 📋 Sistema de Inventário
+
 - ✅ Listagem de inventários com cards visuais
 - ✅ Visualização detalhada de inventários
 - ✅ Criação manual com múltiplos produtos
@@ -58,6 +61,7 @@ Sistema web desenvolvido em **Next.js** com **TypeScript** para gerenciamento co
 - ✅ Deletar inventário com confirmação
 
 ### 🎨 Interface & UX
+
 - ✅ Design moderno e responsivo
 - ✅ Componentes reutilizáveis (Table, Modal, Toast)
 - ✅ Loading states e skeletons
@@ -71,34 +75,41 @@ Sistema web desenvolvido em **Next.js** com **TypeScript** para gerenciamento co
 ## 🛠️ Tecnologias e Ferramentas
 
 ### Core
+
 - **Next.js** 15+ - Framework React com SSR/SSG
 - **TypeScript** 5.9 - Tipagem estática
 - **React** 19+ - Biblioteca UI
 
 ### Estilização
+
 - **Tailwind CSS** 3.0 - Framework CSS utility-first
 - **shadcn/ui** - Componentes acessíveis e customizáveis
 - **CSS Modules** - Estilos modulares (opcional)
 
 ### Validação & Formulários
+
 - **Zod** 4.3 - Validação de schemas
 - **react-hook-form** - Gerenciamento de formulários
 - **@hookform/resolvers** - Integração Zod + react-hook-form
 
 ### Requisições HTTP
+
 - **Axios** ou **fetch nativo** - Cliente HTTP com interceptors
 - **React Query** ou **SWR** - Cache e sincronização de dados
 
 ### Estado Global
+
 - **Zustand** ou **Context API** - Gerenciamento de estado UI
 - **React Query** - Estado de dados da API
 
 ### Testes
+
 - **Vitest** - Framework de testes unitários
 - **React Testing Library** - Testes de componentes
 - **Playwright** - Testes E2E (opcional)
 
 ### Ferramentas de Desenvolvimento
+
 - **ESLint** - Linter de código
 - **Prettier** - Formatador de código
 - **TypeScript** - Verificação de tipos
@@ -272,17 +283,17 @@ npm test             # Executa testes
 
 ### Variáveis de Ambiente
 
-| Variável | Descrição | Exemplo |
-|----------|-----------|---------|
+| Variável              | Descrição               | Exemplo                        |
+| --------------------- | ----------------------- | ------------------------------ |
 | `NEXT_PUBLIC_API_URL` | URL base da API Backend | `http://localhost:3000/api/v1` |
-| `NODE_ENV` | Ambiente de execução | `development` ou `production` |
-
+| `NODE_ENV`            | Ambiente de execução    | `development` ou `production`  |
 
 ## 📚 Estrutura de Desenvolvimento
 
 O projeto está organizado em **6 sprints de 1 semana** cada:
 
 ### Sprint 1 — Setup e Autenticação ✅
+
 - Setup do projeto Next.js
 - Configuração de API Client
 - Sistema de autenticação completo
@@ -290,27 +301,32 @@ O projeto está organizado em **6 sprints de 1 semana** cada:
 - Layout base
 
 ### Sprint 2 — Gestão de Produtos
+
 - CRUD completo de produtos
 - Importação CSV
 - Componentes reutilizáveis (Table, Modal, Toast)
 
 ### Sprint 3 — Gestão de Inventários (Parte 1)
+
 - Listagem e visualização de inventários
 - Histórico por produto
 - Componentes de visualização
 
 ### Sprint 4 — Gestão de Inventários (Parte 2)
+
 - Criação manual de inventários
 - Importação CSV de inventários
 - Seleção de produtos com busca
 
 ### Sprint 5 — Funcionalidades Avançadas
+
 - Sistema de notificações
 - Tratamento de erros global
 - Loading states
 - Melhorias de UX e acessibilidade
 
 ### Sprint 6 — Polimento e Deploy
+
 - Testes unitários e E2E
 - Documentação completa
 - Ajustes finais
@@ -321,6 +337,7 @@ O projeto está organizado em **6 sprints de 1 semana** cada:
 ## 🎨 Componentes Principais
 
 ### Componentes de UI Base
+
 - **Button** - Botão reutilizável com variantes
 - **Input** - Campo de entrada com validação
 - **Modal** - Diálogo modal reutilizável
@@ -329,6 +346,7 @@ O projeto está organizado em **6 sprints de 1 semana** cada:
 - **LoadingSkeleton** - Placeholder de carregamento
 
 ### Componentes de Inventário
+
 - **InventoryCard** - Card de resumo de inventário
 - **InventoryItemsTable** - Tabela de itens do inventário
 - **ProductSelector** - Seletor de produtos com busca
@@ -345,26 +363,29 @@ O frontend consome a API REST do backend. Todos os endpoints protegidos requerem
 
 ```typescript
 // Exemplo de requisição autenticada
-const response = await apiClient.get('/products', {
+const response = await apiClient.get("/products", {
   headers: {
-    Authorization: `Bearer ${token}`
-  }
+    Authorization: `Bearer ${token}`,
+  },
 });
 ```
 
 ### Endpoints Principais
 
 #### Autenticação
+
 - `POST /api/v1/user` - Criar usuário
 - `POST /api/v1/auth` - Login
 - `POST /api/v1/auth/refresh` - Renovar token
 
 #### Produtos
+
 - `GET /api/v1/products` - Listar produtos
 - `POST /api/v1/products` - Criar produto
 - `POST /api/v1/products/import` - Importar CSV
 
 #### Inventários
+
 - `GET /api/v1/inventories` - Listar inventários
 - `GET /api/v1/inventory?id={uuid}` - Buscar por ID
 - `GET /api/v1/inventory/suggested` - Sugestões
@@ -475,6 +496,7 @@ Contribuições são bem-vindas! Para contribuir:
 ### Padrões de Commit
 
 Seguimos [Conventional Commits](https://www.conventionalcommits.org/):
+
 - `feat:` Nova funcionalidade
 - `fix:` Correção de bug
 - `docs:` Documentação
