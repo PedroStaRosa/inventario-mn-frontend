@@ -5,7 +5,6 @@ import { loginSchema, registerSchema } from "@/schemas/authSchemas";
 import { loginUserService, registerUserService } from "@/services/userService";
 import { redirect } from "next/navigation";
 
-
 export async function loginAction(
   prevState: { success: boolean; error: string; redirectTo?: string } | null,
   formData: FormData
