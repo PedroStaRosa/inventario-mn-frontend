@@ -1,6 +1,6 @@
 import { getToken, getUser } from "@/lib/auth";
 import LogoutButton from "./logoutButton";
-import TokenTimer from "../tokenTimer";
+/* import TokenTimer from "../tokenTimer"; */
 import { redirect } from "next/navigation";
 
 export default async function Header() {
@@ -16,7 +16,7 @@ export default async function Header() {
         <h1>Header {user!.name}</h1>
       </div>
       <div className="flex items-center justify-end gap-2">
-        <TokenTimer token={token} />
+        {/* <TokenTimer token={token} /> */}
         <LogoutButton />
       </div>
     </header>
