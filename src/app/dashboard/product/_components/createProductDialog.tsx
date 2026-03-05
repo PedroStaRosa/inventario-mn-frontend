@@ -2,13 +2,13 @@
 
 import { createProductAction } from "@/actions/productActions";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ProductInput, productSchema } from "@/schemas/productSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { startTransition, useActionState, useEffect } from "react";
+import { startTransition, useActionState, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -17,6 +17,7 @@ import { toast } from "sonner";
 export default function CreateProductDialog() {
 
     const [state, formAction, isPending] = useActionState(createProductAction, null);
+    const [isOpen, setIsOpen] = useState(false);
 
 
     const form = useForm<ProductInput>({
@@ -42,17 +43,20 @@ export default function CreateProductDialog() {
     useEffect(() => {
         if (state?.success) {
             toast.success("Produto cadastrado com sucesso!");
+            setIsOpen(false);
             form.reset();
         }
-    }, [state, form]);
+    }, [state, form, setIsOpen]);
 
     return (
         <div>
-            <Dialog>
+            <Dialog open={isOpen} onOpenChange={setIsOpen}>
                 <DialogTrigger asChild>
                     <Button>Novo Produto</Button>
                 </DialogTrigger>
-                <DialogContent>
+
+                <DialogContent >
+                    <DialogDescription>Cadastro de novo produto</DialogDescription>
                     <DialogHeader>
                         <DialogTitle>Novo Produto</DialogTitle>
                     </DialogHeader>
