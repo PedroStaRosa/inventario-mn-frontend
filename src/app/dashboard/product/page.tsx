@@ -1,7 +1,13 @@
+
+import { Button } from "@/components/ui/button";
 import TableProducts from "./_components/tableProdcts";
 import Link from "next/link";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import CreateProductDialog from "./_components/createProductDialog";
 
 export default function ProductPage() {
+
+
   return (
     <>
       <Link
@@ -10,6 +16,7 @@ export default function ProductPage() {
       >
         Voltar
       </Link>
+      <CreateProductDialog />
       <TableProducts />
     </>
   );

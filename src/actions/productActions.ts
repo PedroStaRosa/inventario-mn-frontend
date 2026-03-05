@@ -1,6 +1,8 @@
 "use server";
 
-import { listProductService } from "@/services/productService";
+import { getUserFriendlyErrorMessage } from "@/lib/errorHandler";
+import { productSchema } from "@/schemas/productSchema";
+import { createProductService, listProductService } from "@/services/productService";
 import { ProductListResponse } from "@/types/api";
 
 export async function listProductAction(
@@ -12,4 +14,38 @@ export async function listProductAction(
 ) {
   const response = await listProductService();
   return { success: true, error: "", products: response };
+}
+
+export async function createProductAction(
+  prevState: {
+    success: boolean;
+    error: string;
+  } | null,
+  formData: FormData
+) {
+  try {
+    const data = {
+      code: formData.get("code") as string,
+      description: formData.get("description") as string,
+      unit: formData.get("unit") as string,
+    };
+    const validated = productSchema.safeParse(data);
+    if (!validated.success) {
+      return { success: false, error: validated.error.message };
+    }
+    const response = await createProductService(validated.data);
+
+    return { success: true, error: "" };
+  } catch (error) {
+
+    if (error instanceof Error) {
+
+      return {
+        success: false,
+        error: getUserFriendlyErrorMessage(error),
+      };
+    }
+
+    return { success: false, error: "Erro ao criar produto" };
+  }
 }
