@@ -2,7 +2,10 @@
 
 import { getUserFriendlyErrorMessage } from "@/lib/errorHandler";
 import { productSchema } from "@/schemas/productSchema";
-import { createProductService, listProductService } from "@/services/productService";
+import {
+  createProductService,
+  listProductService,
+} from "@/services/productService";
 import { ProductListResponse } from "@/types/api";
 
 export async function listProductAction(
@@ -33,13 +36,11 @@ export async function createProductAction(
     if (!validated.success) {
       return { success: false, error: validated.error.message };
     }
-    const response = await createProductService(validated.data);
+    await createProductService(validated.data);
 
     return { success: true, error: "" };
   } catch (error) {
-
     if (error instanceof Error) {
-
       return {
         success: false,
         error: getUserFriendlyErrorMessage(error),

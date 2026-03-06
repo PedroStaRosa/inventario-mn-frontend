@@ -23,7 +23,9 @@ export async function listProductService(): Promise<ProductListResponse> {
   }
 }
 
-export async function createProductService(product: CreateProductProps): Promise<Product> {
+export async function createProductService(
+  product: CreateProductProps
+): Promise<Product> {
   try {
     const token = await getToken();
     const response = await apiClient<Product>(`/products`, {

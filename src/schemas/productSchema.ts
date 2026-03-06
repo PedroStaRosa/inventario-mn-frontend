@@ -9,9 +9,7 @@ export const productSchema = z.object({
     .min(1, "Descrição é obrigatória"),
   unit: z.enum(unitSchema, {
     error: (issue) =>
-      issue.input === undefined
-        ? "Unidade é obrigatória"
-        : "Unidade inválida",
+      issue.input === undefined ? "Unidade é obrigatória" : "Unidade inválida",
   }),
 });
 
