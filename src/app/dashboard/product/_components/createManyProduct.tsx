@@ -1,5 +1,5 @@
 "use client";
-import { createProductAction } from "@/actions/productActions";
+import { createManyProductAction } from "@/actions/productActions";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -9,49 +9,27 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useActionState, useRef, useState } from "react";
+import { startTransition, useActionState, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import z from "zod";
-import Papa from "papaparse";
-
-interface ProductCvs {
-  code: string;
-  description: string;
-  unit: string;
-}
-
-interface CsvRow {
-  codigo: string;
-  descricao: string;
-  unidade: string;
-}
-
-const csvSchema = z.object({
-  file: z
-    .instanceof(File, {
-      message: "Arquivo inválido, envie um arquivo CSV válido.",
-    })
-    .refine((file) => file.type === "text/csv" || file.name.endsWith(".csv"), {
-      message: "Por favor, envie um arquivo CSV válido.",
-    })
-    .refine((file) => file.size < 5 * 1024 * 1024, {
-      // 5MB Limit
-      message: "O arquivo deve ter menos de 5MB.",
-    }),
-});
-
-type CsvFormData = z.infer<typeof csvSchema>;
+import { parseCsvFile } from "@/lib/parceCsvFile";
+import { ProductCvs } from "@/types/productCvs";
+import { CsvFormData, csvSchema } from "@/schemas/productSchema";
 
 export function CreateManyProduct() {
   const [state, formAction, isPending] = useActionState(
-    createProductAction,
+    createManyProductAction,
     null
   );
 
   const [products, setProducts] = useState<ProductCvs[]>([]);
 
+  const form = useForm<CsvFormData>({
+    resolver: zodResolver(csvSchema),
+  });
+
   const fileInputRef = useRef<HTMLInputElement>(null);
+
   const handleClear = () => {
     form.reset();
     if (fileInputRef.current) {
@@ -60,60 +38,43 @@ export function CreateManyProduct() {
     setProducts([]);
   };
 
-  const form = useForm<CsvFormData>({
-    resolver: zodResolver(csvSchema),
-  });
-
-  const parseCsvFile = async (data: CsvFormData) => {
+  const readCsvFile = async (data: CsvFormData) => {
     setProducts([]);
-    const products: ProductCvs[] = [];
-    Papa.parse(data.file, {
-      header: true,
-      skipEmptyLines: true,
-      complete: (results) => {
-        const headers = results.meta.fields || [];
-        const expectedHeaders = ["codigo", "descricao", "unidade"];
-        const validHeaders =
-          headers.length === expectedHeaders.length &&
-          expectedHeaders.every((h, i) => headers[i] === h);
-        if (!validHeaders) {
-          const errorMessage =
-            "Cabeçalho inválido, envie um arquivo CSV válido. Verifique o modelo de importação na seção de ajuda.";
-          toast.error(errorMessage);
-          form.setError("file", {
-            message: errorMessage,
-          });
-          return;
-        }
-
-        const rows = results.data as CsvRow[];
-        rows.forEach((row) => {
-          products.push({
-            code: row.codigo,
-            description: row.descricao,
-            unit: row.unidade || "UN",
-          });
+    try {
+      const products = await parseCsvFile(data);
+      if (!products) {
+        toast.error("Erro ao processar o arquivo CSV");
+        return;
+      }
+      setProducts(products);
+    } catch (error) {
+      console.error("Erro ao processar o arquivo CSV:", error);
+      if (error instanceof Error) {
+        form.setError("file", {
+          message: error.message,
         });
-        setProducts(products);
-      },
-      error: (error: unknown) => {
-        console.error("Erro no PapaParse:", error);
-      },
-    });
+      } else {
+        toast.error("Erro ao processar o arquivo CSV");
+      }
+    }
   };
 
   const handleImportProducts = async () => {
-    console.log("Importando produtos...");
     if (products.length === 0) {
       toast.error("Nenhum produto para importar.");
       return;
     }
-    console.log(products);
+    const formData = new FormData();
+    const productsCsv = JSON.stringify(products);
+    formData.append("file", productsCsv);
+    startTransition(() => {
+      formAction(formData);
+    });
   };
 
   return (
     <div>
-      <form onSubmit={form.handleSubmit(parseCsvFile)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(readCsvFile)} className="space-y-4">
         <Controller
           disabled={isPending}
           name="file"
@@ -176,7 +137,7 @@ export function CreateManyProduct() {
             </div>
           </div>
           <Button
-            type="button"
+            type="submit"
             className="mt-4 w-full"
             variant="default"
             disabled={isPending}

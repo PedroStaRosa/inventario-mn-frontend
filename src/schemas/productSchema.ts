@@ -14,3 +14,19 @@ export const productSchema = z.object({
 });
 
 export type ProductInput = z.infer<typeof productSchema>;
+
+export const csvSchema = z.object({
+  file: z
+    .instanceof(File, {
+      message: "Arquivo inválido, envie um arquivo CSV válido.",
+    })
+    .refine((file) => file.type === "text/csv" || file.name.endsWith(".csv"), {
+      message: "Por favor, envie um arquivo CSV válido.",
+    })
+    .refine((file) => file.size < 5 * 1024 * 1024, {
+      // 5MB Limit
+      message: "O arquivo deve ter menos de 5MB.",
+    }),
+});
+
+export type CsvFormData = z.infer<typeof csvSchema>;

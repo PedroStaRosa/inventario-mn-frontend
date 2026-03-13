@@ -7,6 +7,7 @@ import {
   listProductService,
 } from "@/services/productService";
 import { ProductListResponse } from "@/types/api";
+import { ProductCvs } from "@/types/productCvs";
 
 export async function listProductAction(
   prevState: {
@@ -48,5 +49,26 @@ export async function createProductAction(
     }
 
     return { success: false, error: "Erro ao criar produto" };
+  }
+}
+
+export async function createManyProductAction(
+  prevState: {
+    success: boolean;
+    error: string;
+  } | null,
+  formData: FormData
+) {
+  try {
+    const productsCsv = formData.get("file") as string;
+    const products = JSON.parse(productsCsv) as ProductCvs[];
+    console.log("##### products ######");
+    console.log(products);
+    return { success: true, error: "" };
+  } catch (error) {
+    if (error instanceof Error) {
+      return { success: false, error: getUserFriendlyErrorMessage(error) };
+    }
+    return { success: false, error: "Erro ao criar produtos" };
   }
 }
