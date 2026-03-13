@@ -1,6 +1,11 @@
 import { apiClient } from "@/lib/api/client";
 import { getToken } from "@/lib/auth";
-import { Product, ProductListResponse } from "@/types/api";
+import {
+  CreateManyProductResponse,
+  Product,
+  ProductListResponse,
+} from "@/types/api";
+import { ProductCvs } from "@/types/productCvs";
 
 interface CreateProductProps {
   code: string;
@@ -40,5 +45,33 @@ export async function createProductService(
       throw new Error(error.message);
     }
     throw new Error("Erro ao criar produto");
+  }
+}
+
+interface ProductServiceProps {
+  products: ProductCvs[];
+}
+export async function createManyProductService(
+  products: ProductCvs[]
+): Promise<CreateManyProductResponse> {
+  try {
+    const sendProducts: ProductServiceProps = {
+      products: products,
+    };
+    const token = await getToken();
+    const response = await apiClient<CreateManyProductResponse>(
+      `/products/import/many`,
+      {
+        method: "POST",
+        token,
+        body: JSON.stringify(sendProducts),
+      }
+    );
+    return response;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("Erro ao criar produtos");
   }
 }

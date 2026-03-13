@@ -63,6 +63,14 @@ export interface Product {
   updatedAt: string;
 }
 
+export interface CreateManyProductResponse {
+  created: Product[];
+  total_created: number;
+  skipped: Product[];
+  total_skipped: number;
+  errors: string[];
+}
+
 // Tipos de inventário
 export interface InventoryItem {
   stockExpected: string;

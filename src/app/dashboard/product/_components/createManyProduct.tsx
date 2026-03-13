@@ -9,7 +9,13 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { startTransition, useActionState, useRef, useState } from "react";
+import {
+  startTransition,
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { parseCsvFile } from "@/lib/parceCsvFile";
@@ -71,6 +77,12 @@ export function CreateManyProduct() {
       formAction(formData);
     });
   };
+
+  useEffect(() => {
+    if (state?.success) {
+      console.log(state.response);
+    }
+  }, [state]);
 
   return (
     <div>

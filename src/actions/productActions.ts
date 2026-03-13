@@ -3,10 +3,11 @@
 import { getUserFriendlyErrorMessage } from "@/lib/errorHandler";
 import { productSchema } from "@/schemas/productSchema";
 import {
+  createManyProductService,
   createProductService,
   listProductService,
 } from "@/services/productService";
-import { ProductListResponse } from "@/types/api";
+import { CreateManyProductResponse, ProductListResponse } from "@/types/api";
 import { ProductCvs } from "@/types/productCvs";
 
 export async function listProductAction(
@@ -56,15 +57,16 @@ export async function createManyProductAction(
   prevState: {
     success: boolean;
     error: string;
+    response?: CreateManyProductResponse;
   } | null,
   formData: FormData
 ) {
   try {
     const productsCsv = formData.get("file") as string;
     const products = JSON.parse(productsCsv) as ProductCvs[];
-    console.log("##### products ######");
-    console.log(products);
-    return { success: true, error: "" };
+
+    const response = await createManyProductService(products);
+    return { success: true, error: "", response: response };
   } catch (error) {
     if (error instanceof Error) {
       return { success: false, error: getUserFriendlyErrorMessage(error) };
