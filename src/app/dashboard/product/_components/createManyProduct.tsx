@@ -21,6 +21,7 @@ import { toast } from "sonner";
 import { parseCsvFile } from "@/lib/parceCsvFile";
 import { ProductCvs } from "@/types/productCvs";
 import { CsvFormData, csvSchema } from "@/schemas/productSchema";
+import OverviewCreateManyProduct from "./overviewCreateManyProduct";
 
 export function CreateManyProduct() {
   const [state, formAction, isPending] = useActionState(
@@ -29,6 +30,7 @@ export function CreateManyProduct() {
   );
 
   const [products, setProducts] = useState<ProductCvs[]>([]);
+  const [isOverviewOpen, setIsOverviewOpen] = useState(false);
 
   const form = useForm<CsvFormData>({
     resolver: zodResolver(csvSchema),
@@ -78,14 +80,27 @@ export function CreateManyProduct() {
     });
   };
 
+  const handleCloseOverview = () => {
+    setIsOverviewOpen(false);
+    handleClear();
+
+  };
+
   useEffect(() => {
-    if (state?.success) {
-      console.log(state.response);
+    if (state?.success && state.response) {
+      setIsOverviewOpen(true);
     }
   }, [state]);
 
   return (
     <div>
+      {state?.success && state.response && (
+        <OverviewCreateManyProduct
+          response={state.response}
+          isOpen={isOverviewOpen}
+          onClose={handleCloseOverview}
+        />
+      )}
       <form onSubmit={form.handleSubmit(readCsvFile)} className="space-y-4">
         <Controller
           disabled={isPending}
