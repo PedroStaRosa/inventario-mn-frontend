@@ -12,7 +12,7 @@ export interface ApiErrorResponse {
   }>;
 }
 
-// Tipos de autenticação
+// RESPOSTAS DO BACKEND
 export interface LoginResponse {
   token: string;
   user: {
@@ -29,6 +29,22 @@ export interface RegisterUserResponse {
   createdAt: string;
 }
 
+export interface ProductResponse {
+  id: string;
+  code: string;
+  description: string;
+  unit: string | null;
+  lastInventory: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ProductListResponse {
+  products: ProductResponse[];
+  total: number;
+}
+
+// TIPOS DAS ENTIDADES DO BACKEND
 export interface User {
   id: string;
   name: string;
@@ -45,6 +61,14 @@ export interface Product {
   lastInventory: string | null;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface CreateManyProductResponse {
+  created: Product[];
+  total_created: number;
+  skipped: Product[];
+  total_skipped: number;
+  errors: string[];
 }
 
 // Tipos de inventário
