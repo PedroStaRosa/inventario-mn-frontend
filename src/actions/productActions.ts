@@ -1,24 +1,36 @@
 "use server";
 
 import { getUserFriendlyErrorMessage } from "@/lib/errorHandler";
+import { parseDate } from "@/lib/parseDate";
 import { productSchema } from "@/schemas/productSchema";
 import {
   createManyProductService,
   createProductService,
   listProductService,
 } from "@/services/productService";
-import { CreateManyProductResponse, ProductListResponse } from "@/types/api";
+import { CreateManyProductResponse, Product, ProductListResponse } from "@/types/api";
 import { ProductCvs } from "@/types/productCvs";
 
 export async function listProductAction(
   prevState: {
     success: boolean;
     error: string;
-    products: ProductListResponse;
+    products: Product[];
   } | null
 ) {
   const response = await listProductService();
-  return { success: true, error: "", products: response };
+
+  const products: Product[] = response.products.map((product) => ({
+    lastInventory: product.lastInventory ? parseDate(product.lastInventory) : "",
+    createdAt: parseDate(product.createdAt),
+    updatedAt: parseDate(product.updatedAt),
+    id: product.id,
+    code: product.code,
+    description: product.description,
+    unit: product.unit,
+  }));
+
+  return { success: true, error: "", products: products };
 }
 
 export async function createProductAction(

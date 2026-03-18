@@ -11,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Product } from "@/types/api";
 
 import { useActionState, useMemo, useState, useTransition } from "react";
 
@@ -23,7 +24,7 @@ export default function TableProducts() {
   const [page, setPage] = useState(1);
 
   const products = useMemo(
-    () => (state?.success ? state.products.products : []),
+    () => (state?.success ? state.products : []),
     [state]
   );
   const pageSize = 20;
@@ -86,7 +87,7 @@ export default function TableProducts() {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  paginatedProducts.map((product) => (
+                  paginatedProducts.map((product: Product) => (
                     <TableRow key={product.id}>
                       <TableCell>{product.code}</TableCell>
                       <TableCell>{product.description}</TableCell>

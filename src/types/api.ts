@@ -34,9 +34,9 @@ export interface ProductResponse {
   code: string;
   description: string;
   unit: string | null;
-  lastInventory: string | null;
-  createdAt: string;
-  updatedAt: string;
+  lastInventory: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface ProductListResponse {
