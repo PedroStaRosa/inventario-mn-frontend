@@ -133,7 +133,7 @@ export default function RegisterForm() {
             </FieldGroup>
 
             {state?.error && (
-              <div className="p-3 text-sm text-red-500 bg-red-50 rounded-md">
+              <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-md">
                 {state.error}
               </div>
             )}
@@ -144,7 +144,10 @@ export default function RegisterForm() {
           </form>
           <div className="text-center mt-4">
             Já tem uma conta?
-            <Link href="/login" className="font-bold ml-2">
+            <Link
+              href="/login"
+              className="ml-2 font-semibold text-primary hover:underline underline-offset-4"
+            >
               Login
             </Link>
           </div>

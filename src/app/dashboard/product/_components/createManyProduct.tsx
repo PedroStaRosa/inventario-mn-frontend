@@ -2,6 +2,13 @@
 import { createManyProductAction } from "@/actions/productActions";
 import { Button } from "@/components/ui/button";
 import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
   Field,
   FieldDescription,
   FieldError,
@@ -93,87 +100,107 @@ export function CreateManyProduct() {
   }, [state]);
 
   return (
-    <div>
-      {state?.success && state.response && (
-        <OverviewCreateManyProduct
-          response={state.response}
-          isOpen={isOverviewOpen}
-          onClose={handleCloseOverview}
-        />
-      )}
-      <form onSubmit={form.handleSubmit(readCsvFile)} className="space-y-4">
-        <Controller
-          disabled={isPending}
-          name="file"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="file_product">Arquivo CSV</FieldLabel>
-              <Input
-                ref={fileInputRef}
-                id="file_product"
-                type="file"
-                accept=".csv,text/csv"
-                aria-invalid={fieldState.invalid}
-                onChange={(e) => {
-                  const selectedFile = e.target.files?.[0];
-                  field.onChange(selectedFile ?? undefined);
-                }}
-                onBlur={field.onBlur}
-              />
-              <FieldDescription>
-                Selecione um arquivo CSV para importar os produtos.
-              </FieldDescription>
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-            </Field>
-          )}
-        />
-        <div className="flex gap-2">
-          <Button type="submit" className="" disabled={isPending}>
-            {isPending ? "Enviando..." : "Importar"}
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
+    <Card>
+      <CardHeader>
+        <CardTitle>Importar Produtos (CSV)</CardTitle>
+        <CardDescription>
+          Envie um arquivo CSV para registrar produtos em lote.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        {state?.success && state.response && (
+          <OverviewCreateManyProduct
+            response={state.response}
+            isOpen={isOverviewOpen}
+            onClose={handleCloseOverview}
+          />
+        )}
+
+        <form
+          onSubmit={form.handleSubmit(readCsvFile)}
+          className="space-y-4"
+        >
+          <Controller
             disabled={isPending}
-            onClick={handleClear}
-          >
-            Limpar
-          </Button>
-        </div>
-      </form>
-      {products.length > 0 && (
-        <div>
-          <h2 className="text-lg font-bold">
-            Produtos - {products.length} a serem importados
-          </h2>
-          <div className="border rounded-md">
-            <div className="flex w-full p-2 bg-slate-100">
-              <span className="font-bold w-1/3">Código</span>
-              <span className="font-bold  w-1/3">Descrição</span>
-              <span className="font-bold  w-1/3">Unidade</span>
-            </div>
-            <div className="max-h-[300px] w-full overflow-y-auto rounded-md">
-              {products.map((product) => (
-                <div className="flex w-full border-b px-2" key={product.code}>
-                  <span className="w-1/3">{product.code}</span>
-                  <span className="w-1/3">{product.description}</span>
-                  <span className="w-1/3">{product.unit}</span>
-                </div>
-              ))}
-            </div>
+            name="file"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="file_product">Arquivo CSV</FieldLabel>
+                <Input
+                  ref={fileInputRef}
+                  id="file_product"
+                  type="file"
+                  accept=".csv,text/csv"
+                  aria-invalid={fieldState.invalid}
+                  onChange={(e) => {
+                    const selectedFile = e.target.files?.[0];
+                    field.onChange(selectedFile ?? undefined);
+                  }}
+                  onBlur={field.onBlur}
+                />
+                <FieldDescription>
+                  Selecione um arquivo CSV para importar os produtos.
+                </FieldDescription>
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+          <div className="flex gap-2">
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "Enviando..." : "Importar"}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              disabled={isPending}
+              onClick={handleClear}
+            >
+              Limpar
+            </Button>
           </div>
-          <Button
-            type="submit"
-            className="mt-4 w-full"
-            variant="default"
-            disabled={isPending}
-            onClick={handleImportProducts}
-          >
-            Importar
-          </Button>
-        </div>
-      )}
-    </div>
+        </form>
+
+        {products.length > 0 && (
+          <div className="space-y-4">
+            <h2 className="text-lg font-semibold">
+              Prévia: {products.length} produto(s) a serem importados
+            </h2>
+
+            <div className="rounded-lg border">
+              <div className="flex w-full bg-muted/30 p-3">
+                <span className="w-1/3 text-sm font-semibold">Código</span>
+                <span className="w-1/3 text-sm font-semibold">Descrição</span>
+                <span className="w-1/3 text-sm font-semibold">Unidade</span>
+              </div>
+              <div className="max-h-[300px] w-full overflow-y-auto rounded-b-lg">
+                {products.map((product) => (
+                  <div
+                    className="flex w-full border-b px-3 py-2 last:border-b-0"
+                    key={product.code}
+                  >
+                    <span className="w-1/3">{product.code}</span>
+                    <span className="w-1/3">{product.description}</span>
+                    <span className="w-1/3">{product.unit}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full"
+              variant="default"
+              disabled={isPending}
+              onClick={handleImportProducts}
+            >
+              Importar
+            </Button>
+          </div>
+        )}
+      </CardContent>
+    </Card>
   );
 }

@@ -2,6 +2,7 @@
 
 import { listProductAction } from "@/actions/productActions";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -49,55 +50,64 @@ export default function TableProducts() {
   };
 
   return (
-    <div className="mt-4">
-      <Button
-        disabled={isPending}
-        onClick={handleListProducts}
-        className="mb-4"
-      >
-        Listar
-      </Button>
+    <div className="space-y-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 className="text-lg font-semibold">Lista de produtos</h2>
+          <p className="text-sm text-muted-foreground">
+            {products.length} produto(s) disponível(eis)
+          </p>
+        </div>
 
-      <div className="max-h-[500px] overflow-y-auto rounded-b-md border">
-        <Table>
-          <TableHeader className="bg-slate-100">
-            <TableRow>
-              <TableHead>Código</TableHead>
-              <TableHead>Descrição</TableHead>
-              <TableHead>Unidade</TableHead>
-              <TableHead>Última Inventário</TableHead>
-              <TableHead>Criado em</TableHead>
-              <TableHead>Atualizado em</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {products.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={6} className="text-center">
-                  Nenhum produto encontrado
-                </TableCell>
-              </TableRow>
-            ) : (
-              paginatedProducts.map((product) => (
-                <TableRow key={product.id}>
-                  <TableCell>{product.code}</TableCell>
-                  <TableCell>{product.description}</TableCell>
-                  <TableCell>{product.unit}</TableCell>
-                  <TableCell>{product.lastInventory}</TableCell>
-                  <TableCell>{product.createdAt}</TableCell>
-                  <TableCell>{product.updatedAt}</TableCell>
-                </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
+        <Button disabled={isPending} onClick={handleListProducts}>
+          Listar
+        </Button>
       </div>
-      <div className="flex items-center justify-center mt-4 gap-3">
+
+      <Card>
+        <CardContent className="p-0">
+          <div className="max-h-[500px] overflow-y-auto rounded-b-xl">
+            <Table>
+              <TableHeader className="bg-muted/30">
+                <TableRow>
+                  <TableHead>Código</TableHead>
+                  <TableHead>Descrição</TableHead>
+                  <TableHead>Unidade</TableHead>
+                  <TableHead>Última Inventário</TableHead>
+                  <TableHead>Criado em</TableHead>
+                  <TableHead>Atualizado em</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {products.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={6} className="text-center">
+                      Nenhum produto encontrado
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  paginatedProducts.map((product) => (
+                    <TableRow key={product.id}>
+                      <TableCell>{product.code}</TableCell>
+                      <TableCell>{product.description}</TableCell>
+                      <TableCell>{product.unit}</TableCell>
+                      <TableCell>{product.lastInventory}</TableCell>
+                      <TableCell>{product.createdAt}</TableCell>
+                      <TableCell>{product.updatedAt}</TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
+
+      <div className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:justify-between">
         <Button
           variant="outline"
           onClick={handlePrev}
           disabled={page === 1}
-          className="hover:bg-primary hover:text-white"
         >
           Anterior
         </Button>
@@ -110,7 +120,6 @@ export default function TableProducts() {
           variant="outline"
           onClick={handleNext}
           disabled={page === totalPages || totalPages === 0}
-          className="hover:bg-primary hover:text-white"
         >
           Próximo
         </Button>
