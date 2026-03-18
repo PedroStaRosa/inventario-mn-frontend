@@ -1,7 +1,5 @@
 import TableProducts from "./_components/tableProdcts";
 import Link from "next/link";
-import CreateProductDialog from "./_components/createProductDialog";
-import { CreateManyProduct } from "./_components/createManyProduct";
 import { Button } from "@/components/ui/button";
 
 export default function ProductPage() {
@@ -14,7 +12,6 @@ export default function ProductPage() {
       </div>
 
       <div className="space-y-4">
-
         <TableProducts />
       </div>
     </div>

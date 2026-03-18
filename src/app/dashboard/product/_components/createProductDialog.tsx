@@ -11,13 +11,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   Field,
   FieldError,
   FieldGroup,
@@ -88,17 +81,12 @@ export default function CreateProductDialog() {
   }, [state?.success, form]);
 
   return (
-    /*     <Card>
-          <CardHeader>
-            <CardTitle>Cadastrar Produto</CardTitle>
-            <CardDescription>
-              Abra o formulário para registrar um novo produto.
-            </CardDescription>
-          </CardHeader>
-          <CardContent> */
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="w-full sm:w-auto"> <Plus size={16} /> Novo Produto</Button>
+        <Button className="w-full sm:w-auto">
+          {" "}
+          <Plus size={16} /> Novo Produto
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogDescription>Cadastro de novo produto</DialogDescription>
@@ -194,7 +182,5 @@ export default function CreateProductDialog() {
         </form>
       </DialogContent>
     </Dialog>
-    /*       </CardContent>
-        </Card> */
   );
 }

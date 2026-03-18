@@ -90,7 +90,6 @@ export function CreateManyProduct() {
   const handleCloseOverview = () => {
     setIsOverviewOpen(false);
     handleClear();
-
   };
 
   useEffect(() => {
@@ -116,10 +115,7 @@ export function CreateManyProduct() {
           />
         )}
 
-        <form
-          onSubmit={form.handleSubmit(readCsvFile)}
-          className="space-y-4"
-        >
+        <form onSubmit={form.handleSubmit(readCsvFile)} className="space-y-4">
           <Controller
             disabled={isPending}
             name="file"

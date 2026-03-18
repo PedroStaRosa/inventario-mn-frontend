@@ -104,11 +104,7 @@ export default function TableProducts() {
       </Card>
 
       <div className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:justify-between">
-        <Button
-          variant="outline"
-          onClick={handlePrev}
-          disabled={page === 1}
-        >
+        <Button variant="outline" onClick={handlePrev} disabled={page === 1}>
           Anterior
         </Button>
 

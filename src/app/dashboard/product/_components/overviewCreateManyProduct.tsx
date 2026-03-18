@@ -33,7 +33,9 @@ export default function OverviewCreateManyProduct({
     >
       <DialogContent>
         <DialogTitle>Importação de produtos</DialogTitle>
-        <DialogDescription>Relatório de importação de produtos</DialogDescription>
+        <DialogDescription>
+          Relatório de importação de produtos
+        </DialogDescription>
         <DialogHeader className="space-y-1">
           <p className="text-sm">
             Total importados:{" "}
