@@ -2,23 +2,21 @@ import TableProducts from "./_components/tableProdcts";
 import Link from "next/link";
 import CreateProductDialog from "./_components/createProductDialog";
 import { CreateManyProduct } from "./_components/createManyProduct";
+import { Button } from "@/components/ui/button";
 
 export default function ProductPage() {
   return (
-    <>
-      <div className="mb-4">
-        {" "}
-        <Link
-          href="/dashboard"
-          className="text-sm hover:text-gray-700 bg-primary text-white px-4 py-2 rounded-md"
-        >
-          Voltar
-        </Link>
+    <div className="space-y-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <Button asChild variant="outline" className="w-fit">
+          <Link href="/dashboard">Voltar</Link>
+        </Button>
       </div>
 
-      <CreateProductDialog />
-      <CreateManyProduct />
-      <TableProducts />
-    </>
+      <div className="space-y-4">
+
+        <TableProducts />
+      </div>
+    </div>
   );
 }

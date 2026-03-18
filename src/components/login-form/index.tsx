@@ -111,7 +111,7 @@ export default function LoginForm() {
             </FieldGroup>
 
             {state?.error && (
-              <div className="p-3 text-sm text-red-500 bg-red-50 rounded-md">
+              <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-md">
                 {state.error}
               </div>
             )}
@@ -122,7 +122,10 @@ export default function LoginForm() {
           </form>
           <div className="text-center mt-4">
             Não tem uma conta?
-            <Link href="/register" className="font-bold ml-2">
+            <Link
+              href="/register"
+              className="ml-2 font-semibold text-primary hover:underline underline-offset-4"
+            >
               Cadastre-se
             </Link>
           </div>

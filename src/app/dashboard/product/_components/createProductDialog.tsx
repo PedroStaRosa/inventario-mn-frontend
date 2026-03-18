@@ -11,6 +11,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
   Field,
   FieldError,
   FieldGroup,
@@ -35,6 +42,7 @@ import {
 } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { Plus } from "lucide-react";
 
 export default function CreateProductDialog() {
   const [state, formAction, isPending] = useActionState(
@@ -80,105 +88,113 @@ export default function CreateProductDialog() {
   }, [state?.success, form]);
 
   return (
-    <div>
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogTrigger asChild>
-          <Button>Novo Produto</Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogDescription>Cadastro de novo produto</DialogDescription>
-          <DialogHeader>
-            <DialogTitle>Novo Produto</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FieldGroup>
-              <Controller
-                disabled={isPending}
-                name="code"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>Codigo:</FieldLabel>
-                    <Input
-                      {...field}
-                      id={field.name}
-                      type="number"
-                      aria-invalid={fieldState.invalid}
-                      placeholder="Digite o codigo do produto..."
-                      autoComplete="off"
-                    />
+    /*     <Card>
+          <CardHeader>
+            <CardTitle>Cadastrar Produto</CardTitle>
+            <CardDescription>
+              Abra o formulário para registrar um novo produto.
+            </CardDescription>
+          </CardHeader>
+          <CardContent> */
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <Button className="w-full sm:w-auto"> <Plus size={16} /> Novo Produto</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogDescription>Cadastro de novo produto</DialogDescription>
+        <DialogHeader>
+          <DialogTitle>Novo Produto</DialogTitle>
+        </DialogHeader>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FieldGroup>
+            <Controller
+              disabled={isPending}
+              name="code"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor={field.name}>Codigo:</FieldLabel>
+                  <Input
+                    {...field}
+                    id={field.name}
+                    type="number"
+                    aria-invalid={fieldState.invalid}
+                    placeholder="Digite o codigo do produto..."
+                    autoComplete="off"
+                  />
 
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              />
-              <Controller
-                disabled={isPending}
-                name="description"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>Descrição:</FieldLabel>
-                    <Input
-                      {...field}
-                      type="text"
-                      id={field.name}
-                      aria-invalid={fieldState.invalid}
-                      placeholder="Digite a descrição do produto..."
-                      autoComplete="off"
-                    />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+            <Controller
+              disabled={isPending}
+              name="description"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor={field.name}>Descrição:</FieldLabel>
+                  <Input
+                    {...field}
+                    type="text"
+                    id={field.name}
+                    aria-invalid={fieldState.invalid}
+                    placeholder="Digite a descrição do produto..."
+                    autoComplete="off"
+                  />
 
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              />
-              <Controller
-                disabled={isPending}
-                name="unit"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>Unidade:</FieldLabel>
-                    <Select
-                      value={field.value}
-                      onValueChange={field.onChange}
-                      aria-invalid={fieldState.invalid}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selecione a unidade do produto..." />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="UN">UN</SelectItem>
-                        <SelectItem value="KG">KG</SelectItem>
-                        <SelectItem value="LT">LT</SelectItem>
-                        <SelectItem value="SC">SC</SelectItem>
-                        <SelectItem value="PT">PT</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              />
-            </FieldGroup>
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+            <Controller
+              disabled={isPending}
+              name="unit"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor={field.name}>Unidade:</FieldLabel>
+                  <Select
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    aria-invalid={fieldState.invalid}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecione a unidade do produto..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="UN">UN</SelectItem>
+                      <SelectItem value="KG">KG</SelectItem>
+                      <SelectItem value="LT">LT</SelectItem>
+                      <SelectItem value="SC">SC</SelectItem>
+                      <SelectItem value="PT">PT</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+          </FieldGroup>
 
-            {state?.error && (
-              <div className="p-3 text-sm text-red-500 bg-red-50 rounded-md">
-                {state.error}
-              </div>
-            )}
+          {state?.error && (
+            <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-md">
+              {state.error}
+            </div>
+          )}
 
-            <Button type="submit" className="w-full" disabled={isPending}>
-              {isPending ? "Cadastrando..." : "Cadastrar"}
-            </Button>
-          </form>
-        </DialogContent>
-      </Dialog>
-    </div>
+          <Button type="submit" className="w-full" disabled={isPending}>
+            {isPending ? "Cadastrando..." : "Cadastrar"}
+          </Button>
+        </form>
+      </DialogContent>
+    </Dialog>
+    /*       </CardContent>
+        </Card> */
   );
 }
