@@ -11,7 +11,24 @@ import { Package } from "lucide-react";
 
 export default function DashboardPage() {
   return (
-    <div className="py-10">
+    <div className="py-10 flex flex-col gap-4 sm:flex-row">
+      <Card className="mx-auto w-full max-w-xl">
+        <CardHeader>
+          <CardTitle className="text-xl flex items-center gap-2">
+            <Package size={32} />
+            Inventarios
+          </CardTitle>
+          <CardDescription>Acesse seus inventarios.</CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3 sm:flex-row sm:items-center justify-center">
+          <Button asChild>
+            <Link href="/dashboard/inventory">Listar Inventarios</Link>
+          </Button>
+          <Button asChild>
+            <Link href="/dashboard/inventory/new">Importar Inventarios</Link>
+          </Button>
+        </CardContent>
+      </Card>
       <Card className="mx-auto w-full max-w-xl">
         <CardHeader>
           <CardTitle className="text-xl flex items-center gap-2">
@@ -22,7 +39,7 @@ export default function DashboardPage() {
             Acesse rapidamente o cadastro e a importação de produtos.
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <CardContent className="flex flex-col gap-3 sm:flex-row sm:items-center justify-center">
           <Button asChild>
             <Link href="/dashboard/product">Listar Produtos</Link>
           </Button>

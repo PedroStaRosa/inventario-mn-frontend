@@ -82,10 +82,9 @@ export interface InventoryItem {
     description: string;
   };
 }
-
 export interface Inventory {
   id: string;
   name: string;
-  createdAt: string;
+  createdAt: Date;
   inventoryItems: InventoryItem[];
 }
