@@ -20,7 +20,9 @@ export async function listInventoryService(): Promise<Inventory[]> {
   }
 }
 
-export async function listInventoryByIdService(id: string): Promise<Inventory> {
+export async function listInventoryByIdService(
+  id: string
+): Promise<Inventory | null> {
   try {
     const token = await getToken();
     const response = await apiClient<Inventory>(`/inventory?id=${id}`, {
@@ -28,8 +30,7 @@ export async function listInventoryByIdService(id: string): Promise<Inventory> {
       token,
     });
     return response;
-  } catch (error) {
-    console.error(error);
-    throw new Error("Erro ao listar inventario por id");
+  } catch {
+    return null;
   }
 }

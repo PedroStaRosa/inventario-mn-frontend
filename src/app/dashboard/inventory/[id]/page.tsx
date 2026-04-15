@@ -16,6 +16,17 @@ interface InventoryPageProps {
 export default async function ProductDetails({ params }: InventoryPageProps) {
   const { id } = await params;
   const response = await listInventoryByIdService(id);
+
+  if (!response) {
+    return (
+      <div>
+        <p className="text-2xl font-bold">
+          Inventario de id {id} não encontrado
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div>
       <p className="text-2xl font-bold">{response.name}</p>
