@@ -35,7 +35,6 @@ export default function TableListInventary() {
 
   function handleOpenDetails(id: string) {
     redirect(`${pathname}/${id}`);
-    /* router.push(`/products/${id}`) */
   }
 
   return (
