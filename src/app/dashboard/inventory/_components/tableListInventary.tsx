@@ -41,7 +41,6 @@ export default function TableListInventary() {
     handleListInventories();
   }, []);
 
-
   if (isPending) {
     return <div>Carregando...</div>;
   }

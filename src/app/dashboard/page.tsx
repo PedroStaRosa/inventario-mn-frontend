@@ -25,7 +25,7 @@ export default function DashboardPage() {
             <Link href="/dashboard/inventory">Listar Inventarios</Link>
           </Button>
           <Button asChild>
-            <Link href="/dashboard/inventory/new">Importar Inventarios</Link>
+            <Link href="/dashboard/inventory/import">Importar Inventarios</Link>
           </Button>
         </CardContent>
       </Card>
