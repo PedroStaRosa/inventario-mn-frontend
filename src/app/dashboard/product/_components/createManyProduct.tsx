@@ -25,7 +25,7 @@ import {
 } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { parseCsvFile } from "@/lib/parceCsvFile";
+import { parseCsvFile } from "@/lib/parseCsvFile";
 import { ProductCvs } from "@/types/productCvs";
 import { CsvFormData, csvSchema } from "@/schemas/productSchema";
 import OverviewCreateManyProduct from "./overviewCreateManyProduct";
