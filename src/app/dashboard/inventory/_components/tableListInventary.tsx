@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/table";
 import { parseDate } from "@/lib/parseDate";
 import { redirect, usePathname } from "next/navigation";
-import { useActionState, useMemo, useTransition } from "react";
+import { useActionState, useEffect, useMemo, useTransition } from "react";
 
 export default function TableListInventary() {
   const [state, formAction, isPending] = useActionState(
@@ -37,10 +37,22 @@ export default function TableListInventary() {
     redirect(`${pathname}/${id}`);
   }
 
+  useEffect(() => {
+    handleListInventories();
+  }, []);
+
+
+  if (isPending) {
+    return <div>Carregando...</div>;
+  }
+  if (state?.error) {
+    return <div>Erro ao listar inventários</div>;
+  }
+
   return (
     <div className="space-y-4 ">
       <Button disabled={isPending} onClick={handleListInventories}>
-        Listar Inventários
+        Atualizar Inventários
       </Button>
 
       <Card>
