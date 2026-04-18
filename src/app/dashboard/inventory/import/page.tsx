@@ -1,4 +1,5 @@
 "use client";
+import { createInventoryAction } from "@/actions/inventoryActions";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,10 +16,13 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { parseInventoryCsvFile } from "@/lib/parseCsvFile";
-import { CsvFormData, csvSchema } from "@/schemas/productSchema";
+import {
+  InventoryImportFormData,
+  inventoryImportSchema,
+} from "@/schemas/productSchema";
 import { InventoryCvs } from "@/types/inventoryCvs";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef, useState } from "react";
+import { startTransition, useActionState, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -26,13 +30,19 @@ const ImportInventoryPage = () => {
   const [inventoryProducts, setInventoryProducts] = useState<InventoryCvs[]>(
     []
   );
+  const [state, formAction, isPending] = useActionState(
+    createInventoryAction,
+    null
+  );
 
-  const form = useForm<CsvFormData>({
-    resolver: zodResolver(csvSchema),
+  const form = useForm<InventoryImportFormData>({
+    resolver: zodResolver(inventoryImportSchema),
+    defaultValues: { inventoryName: "" },
   });
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const readCsvFile = async (data: CsvFormData) => {
+  const readCsvFile = async (data: InventoryImportFormData) => {
     setInventoryProducts([]);
     try {
       const parsedInventoryProducts = await parseInventoryCsvFile(data);
@@ -41,6 +51,7 @@ const ImportInventoryPage = () => {
         return;
       }
       setInventoryProducts(parsedInventoryProducts);
+      console.log("parsedInventoryProducts", parsedInventoryProducts);
     } catch (error) {
       /* console.error("Erro ao processar o arquivo CSV:", error); */
       if (error instanceof Error) {
@@ -61,6 +72,20 @@ const ImportInventoryPage = () => {
     setInventoryProducts([]);
   };
 
+  const handleImportInventory = async () => {
+    if (inventoryProducts.length === 0) {
+      toast.error("Nenhum produto para importar.");
+      return;
+    }
+    const formData = new FormData();
+    const inventoryProductsCsv = JSON.stringify(inventoryProducts);
+    formData.append("inventoryItems", inventoryProductsCsv);
+    formData.append("inventoryName", form.getValues("inventoryName"));
+    startTransition(() => {
+      formAction(formData);
+    });
+  };
+
   return (
     <div>
       <Card>
@@ -72,6 +97,31 @@ const ImportInventoryPage = () => {
         </CardHeader>
         <CardContent className="space-y-6">
           <form onSubmit={form.handleSubmit(readCsvFile)} className="space-y-4">
+            <Controller
+              name="inventoryName"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="inventoryName">
+                    Nome do Inventário
+                  </FieldLabel>
+                  <Input
+                    {...field}
+                    id="inventoryName"
+                    type="text"
+                    aria-invalid={fieldState.invalid}
+                    placeholder="Digite o nome do inventário..."
+                    onChange={(e) => {
+                      field.onChange(e.target.value);
+                    }}
+                    onBlur={field.onBlur}
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
             <Controller
               /*  disabled={isPending} */
               name="file"
@@ -213,8 +263,8 @@ const ImportInventoryPage = () => {
                 type="submit"
                 className="w-full"
                 variant="default"
-                /* disabled={isPending}
-                               onClick={handleImportProducts} */
+                disabled={isPending}
+                onClick={handleImportInventory}
               >
                 Importar
               </Button>
