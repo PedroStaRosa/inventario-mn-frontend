@@ -8,7 +8,7 @@ import {
   createProductService,
   listProductService,
 } from "@/services/productService";
-import { CreateManyProductResponse, Product, ProductListResponse } from "@/types/api";
+import { CreateManyProductResponse, Product } from "@/types/api";
 import { ProductCvs } from "@/types/productCvs";
 
 export async function listProductAction(
@@ -21,7 +21,9 @@ export async function listProductAction(
   const response = await listProductService();
 
   const products: Product[] = response.products.map((product) => ({
-    lastInventory: product.lastInventory ? parseDate(product.lastInventory) : "",
+    lastInventory: product.lastInventory
+      ? parseDate(product.lastInventory)
+      : "",
     createdAt: parseDate(product.createdAt),
     updatedAt: parseDate(product.updatedAt),
     id: product.id,

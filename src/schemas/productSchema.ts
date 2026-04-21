@@ -30,3 +30,18 @@ export const csvSchema = z.object({
 });
 
 export type CsvFormData = z.infer<typeof csvSchema>;
+
+/** CSV upload + inventário name (dashboard import page) */
+export const inventoryImportSchema = csvSchema.extend({
+  inventoryName: z.string().min(1, "Nome do inventário é obrigatório"),
+});
+export type InventoryImportFormData = z.infer<typeof inventoryImportSchema>;
+
+export const inventoryCsvSchema = z.object({
+  inventoryName: z
+    .string("Nome do inventário é obrigatório")
+    .min(1, "Nome do inventário é obrigatório"),
+  inventoryItems: z.array(productSchema),
+});
+
+export type InventoryCsvFormData = z.infer<typeof inventoryCsvSchema>;
