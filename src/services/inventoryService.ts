@@ -1,5 +1,6 @@
 import { apiClient } from "@/lib/api/client";
 import { getToken } from "@/lib/auth";
+import { getUserFriendlyErrorMessage } from "@/lib/errorHandler";
 import { Inventory } from "@/types/api";
 import { InventoryCvs } from "@/types/inventoryCvs";
 
@@ -16,8 +17,10 @@ export async function listInventoryService(): Promise<Inventory[]> {
 
     return response;
   } catch (error) {
-    console.error(error);
-    throw new Error("Erro ao listar inventarios");
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error("Erro ao listar inventários");
   }
 }
 

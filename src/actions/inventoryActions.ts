@@ -1,6 +1,7 @@
 "use server";
 
 import { getUserFriendlyErrorMessage } from "@/lib/errorHandler";
+import { redirect } from "next/navigation";
 import {
   createInventoryService,
   listInventoryByIdService,
@@ -16,14 +17,27 @@ export async function listInventoryAction(
     inventories: Inventory[];
   } | null
 ) {
-  const response = await listInventoryService();
+  try {
+    const response = await listInventoryService();
 
-  prevState = {
-    success: true,
-    error: "",
-    inventories: response,
-  };
-  return prevState;
+    prevState = {
+      success: true,
+      error: "",
+      inventories: response,
+    };
+    return prevState;
+  } catch (error) {
+
+    if (error instanceof Error) {
+      getUserFriendlyErrorMessage(error);
+    }
+    return {
+      success: false,
+      error: getUserFriendlyErrorMessage(error),
+      inventories: [],
+    };
+  }
+
 }
 
 export async function listInventoryByIdAction(
