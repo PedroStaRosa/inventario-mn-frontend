@@ -22,7 +22,13 @@ import {
 } from "@/schemas/productSchema";
 import { InventoryCvs } from "@/types/inventoryCvs";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { startTransition, useActionState, useRef, useState } from "react";
+import {
+  startTransition,
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -30,6 +36,8 @@ const ImportInventoryPage = () => {
   const [inventoryProducts, setInventoryProducts] = useState<InventoryCvs[]>(
     []
   );
+  const [showActionError, setShowActionError] = useState(false);
+
   const [state, formAction, isPending] = useActionState(
     createInventoryAction,
     null
@@ -44,6 +52,7 @@ const ImportInventoryPage = () => {
 
   const readCsvFile = async (data: InventoryImportFormData) => {
     setInventoryProducts([]);
+    setShowActionError(false);
     try {
       const parsedInventoryProducts = await parseInventoryCsvFile(data);
       if (!parsedInventoryProducts) {
@@ -51,9 +60,7 @@ const ImportInventoryPage = () => {
         return;
       }
       setInventoryProducts(parsedInventoryProducts);
-      console.log("parsedInventoryProducts", parsedInventoryProducts);
     } catch (error) {
-      /* console.error("Erro ao processar o arquivo CSV:", error); */
       if (error instanceof Error) {
         form.setError("file", {
           message: error.message,
@@ -81,10 +88,24 @@ const ImportInventoryPage = () => {
     const inventoryProductsCsv = JSON.stringify(inventoryProducts);
     formData.append("inventoryItems", inventoryProductsCsv);
     formData.append("inventoryName", form.getValues("inventoryName"));
-    startTransition(() => {
+    startTransition(async () => {
       formAction(formData);
     });
   };
+
+  useEffect(() => {
+    if (state?.success) {
+      toast.success("Inventário importado com sucesso");
+      setTimeout(() => {
+        handleClear();
+      }, 0);
+    }
+    if (state?.error) {
+      setTimeout(() => {
+        setShowActionError(true);
+      }, 0);
+    }
+  }, [state]);
 
   return (
     <div>
@@ -123,7 +144,7 @@ const ImportInventoryPage = () => {
               )}
             />
             <Controller
-              /*  disabled={isPending} */
+              disabled={isPending}
               name="file"
               control={form.control}
               render={({ field, fieldState }) => (
@@ -154,14 +175,13 @@ const ImportInventoryPage = () => {
               )}
             />
             <div className="flex gap-2">
-              <Button type="submit" /* disabled={isPending} */>
-                {/* {isPending ? "Enviando..." : "Importar"} */}
-                Importar
+              <Button type="submit" disabled={isPending}>
+                {isPending ? "Enviando..." : "Importar"}
               </Button>
               <Button
                 type="button"
                 variant="outline"
-                /* disabled={isPending} */
+                disabled={isPending}
                 onClick={handleClear}
               >
                 Limpar
@@ -174,6 +194,9 @@ const ImportInventoryPage = () => {
               <h2 className="text-lg font-semibold">
                 Prévia: {inventoryProducts.length} produto(s) a serem importados
               </h2>
+              {showActionError && state?.error && (
+                <p className="text-red-500">{state.error}</p>
+              )}
 
               <div className="rounded-lg border">
                 {/* Header for table - responsive layout */}
@@ -198,13 +221,13 @@ const ImportInventoryPage = () => {
                   {inventoryProducts.map((product) => (
                     <div
                       className="flex flex-col sm:flex-row w-full border-b px-3 py-2 last:border-b-0"
-                      key={product.productCode}
+                      key={product.productId}
                     >
                       {/* Mobile labels */}
                       <div className="flex flex-col sm:hidden mb-2 gap-1">
                         <div className="flex text-xs">
                           <span className="font-semibold w-1/5">Código:</span>
-                          <span>{product.productCode}</span>
+                          <span>{product.productId}</span>
                         </div>
                         <div className="flex text-xs">
                           <span className="font-semibold w-1/5">
@@ -236,7 +259,7 @@ const ImportInventoryPage = () => {
                       {/* Desktop columns */}
                       <div className="hidden sm:flex w-full text-xs">
                         <span className="hidden sm:flex w-1/6">
-                          {product.productCode}
+                          {product.productId}
                         </span>
                         <span className="hidden sm:flex w-2/6">
                           {product.description}
@@ -266,7 +289,7 @@ const ImportInventoryPage = () => {
                 disabled={isPending}
                 onClick={handleImportInventory}
               >
-                Importar
+                {isPending ? "Enviando..." : "Importar"}
               </Button>
             </div>
           )}

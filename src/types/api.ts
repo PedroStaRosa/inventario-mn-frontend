@@ -71,8 +71,25 @@ export interface CreateManyProductResponse {
   errors: string[];
 }
 
+export interface CreateInventoryResponse {
+  id: string;
+  inventoryName: string;
+  userId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  inventoryItems: InventoryItem[];
+}
+
 // Tipos de inventário
 export interface InventoryItem {
+  id: string;
+  productId: string;
+  inventoryId: string;
+  unitInput: string;
+  stockExpected: number;
+  stockCounted: number;
+}
+/* export interface InventoryItem {
   stockExpected: string;
   stockCounted: string;
   difference: string;
@@ -81,7 +98,7 @@ export interface InventoryItem {
     code: string;
     description: string;
   };
-}
+} */
 export interface Inventory {
   id: string;
   name: string;
