@@ -9,10 +9,14 @@ export function getUserFriendlyErrorMessage(error: unknown): string {
     if (
       errorMessage.includes("failed to fetch") ||
       errorMessage.includes("fetch failed") ||
-      errorMessage.includes("network error") ||
-      errorMessage.includes("failed to parse url")
+      errorMessage.includes("network error")
     ) {
-      return "Erro de conexão. Verifique sua internet ou tente novamente mais tarde.";
+      return "Não foi possível conectar ao servidor. Tente novamente em instantes.";
+    }
+
+    // URL inválida / problema interno
+    if (errorMessage.includes("failed to parse url")) {
+      return "Erro interno ao tentar conectar ao serviço.";
     }
 
     // Timeout
@@ -20,13 +24,14 @@ export function getUserFriendlyErrorMessage(error: unknown): string {
       return "A requisição demorou muito. Tente novamente.";
     }
 
-    // Erros do servidor (já tratados, podem ser mostrados)
-    if (
-      !errorMessage.includes("function") &&
-      !errorMessage.includes("undefined") &&
-      !errorMessage.includes("parse")
-    ) {
-      return error.message;
+    // Erros do servidor (já tratados, podem ser mostrados), evita vazar erro técnico pro usuário
+    const isTechnicalError =
+      errorMessage.includes("undefined") ||
+      errorMessage.includes("function") ||
+      errorMessage.includes("parse");
+
+    if (!isTechnicalError) {
+      return error.message; // mensagem vinda da API (boa prática)
     }
   }
 
