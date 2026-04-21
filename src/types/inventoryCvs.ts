@@ -1,5 +1,5 @@
 export interface InventoryCvs {
-  productCode: string;
+  productId: string;
   unitInput: string;
   stockExpected: number;
   stockCounted: number;

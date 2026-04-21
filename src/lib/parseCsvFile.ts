@@ -94,10 +94,10 @@ export const parseInventoryCsvFile = async (
         const rows = results.data as CsvInventoryRow[];
         rows.forEach((row) => {
           ProducstInventory.push({
-            productCode: row.Codigo,
+            productId: row.Codigo,
             unitInput: row.Unidade,
-            stockExpected: row.Estoque,
-            stockCounted: row.Digitado,
+            stockExpected: Number(row.Estoque),
+            stockCounted: Number(row.Digitado),
             description: row.Descricao,
           });
         });
