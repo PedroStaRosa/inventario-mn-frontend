@@ -1,17 +1,28 @@
 /**
  * Sanitiza mensagens de erro técnicas e retorna mensagens amigáveis ao usuário
  */
+
+import { redirect } from "next/navigation";
+
+export interface ApiError {
+  message: string;
+  status?: number;
+  details?: unknown;
+}
+
 export function getUserFriendlyErrorMessage(error: unknown): string {
   if (error instanceof Error) {
     const errorMessage = error.message.toLowerCase();
-
     // Erros de rede/conexão
     if (
       errorMessage.includes("failed to fetch") ||
       errorMessage.includes("fetch failed") ||
       errorMessage.includes("network error")
     ) {
-      return "Não foi possível conectar ao servidor. Tente novamente em instantes.";
+      redirect(
+        "/login?error=api_unavailable&message=Houve%20um%20erro.%20Tente%20novamente%20mais%20tarde."
+      );
+      /* return "Não foi possível conectar ao servidor. Tente novamente em instantes."; */
     }
 
     // URL inválida / problema interno
