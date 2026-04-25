@@ -1,5 +1,5 @@
 import LoginForm from "@/components/login-form";
-import { getUser } from "@/lib/auth";
+import { getUser, removeToken } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
 interface LoginPageProps {
@@ -19,7 +19,6 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   const showApiError = params.error === "api_unavailable";
   const errorMessage =
     params.message ?? "Houve um erro. Tente novamente mais tarde.";
-
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-linear-to-b from-muted/40 via-background to-background p-4 font-sans">

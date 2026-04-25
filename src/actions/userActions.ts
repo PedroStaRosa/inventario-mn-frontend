@@ -84,7 +84,6 @@ export async function registerUserAction(
   } catch (error) {
     // Loga o erro técnico completo apenas em desenvolvimento
     if (error instanceof Error) {
-      console.log(error.message);
       return {
         success: false,
         error: getUserFriendlyErrorMessage(error),

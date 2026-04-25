@@ -37,7 +37,6 @@ export async function listInventoryAction(
       inventories: [],
     };
   }
-
 }
 
 export async function listInventoryByIdAction(
@@ -48,13 +47,25 @@ export async function listInventoryByIdAction(
   } | null,
   id: string
 ) {
-  const response = await listInventoryByIdService(id);
-  prevState = {
-    success: true,
-    error: "",
-    inventory: response,
-  };
-  return prevState;
+  try {
+    const response = await listInventoryByIdService(id);
+    prevState = {
+      success: true,
+      error: "",
+      inventory: response,
+    };
+    return prevState;
+  } catch (error) {
+    if (error instanceof Error) {
+      getUserFriendlyErrorMessage(error);
+    }
+    return {
+      success: false,
+      error: "Erro ao listar inventário por id",
+      inventory: null,
+    };
+  }
+
 }
 
 export async function createInventoryAction(
@@ -91,43 +102,13 @@ export async function createInventoryAction(
     };
     return prevState;
   } catch (error) {
-    let message = "Erro ao criar inventário";
-    if (error instanceof Error) {
-      try {
-        const parsed = JSON.parse(error.message) as { error?: string };
-        message = parsed.error ?? getUserFriendlyErrorMessage(error);
-      } catch {
-        message = getUserFriendlyErrorMessage(error);
-      }
-    }
+
+    let message = error instanceof Error ? getUserFriendlyErrorMessage(error) : "Erro ao criar inventário";
+
     return {
       success: false,
       error: message,
       inventory: null,
     };
   }
-  /* if (error instanceof Error) {
-    const errorMessage = JSON.stringify(error.message);
-    const msg: {
-      error: string;
-    } = {
-      error: errorMessage,
-    };
-
-    console.log("ERROR MESSAGE:", msg);
-    prevState = {
-      success: false,
-      error: msg.error,
-      inventory: null,
-    };
-    return prevState;
-  }
-  console.error(error);
-  prevState = {
-    success: false,
-    error: "Erro ao criar inventario",
-    inventory: null,
-  };
-  return prevState;
-} */
 }

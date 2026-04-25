@@ -3,6 +3,7 @@
  */
 
 import { redirect } from "next/navigation";
+import { removeToken } from "./auth";
 
 export interface ApiError {
   message: string;
@@ -10,8 +11,9 @@ export interface ApiError {
   details?: unknown;
 }
 
-export function getUserFriendlyErrorMessage(error: unknown): string {
+export async function getUserFriendlyErrorMessage(error: unknown): Promise<string> {
   if (error instanceof Error) {
+    console.error("ERROR MESSAGE:", error);
     const errorMessage = error.message.toLowerCase();
     // Erros de rede/conexão
     if (
@@ -22,7 +24,6 @@ export function getUserFriendlyErrorMessage(error: unknown): string {
       redirect(
         "/login?error=api_unavailable&message=Houve%20um%20erro.%20Tente%20novamente%20mais%20tarde."
       );
-      /* return "Não foi possível conectar ao servidor. Tente novamente em instantes."; */
     }
 
     // URL inválida / problema interno
