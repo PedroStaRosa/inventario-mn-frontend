@@ -15,31 +15,53 @@ interface RegisterUserProps {
 export async function loginUserService(
   user: LoginUserProps
 ): Promise<LoginResponse> {
-  const response = await apiClient<LoginResponse>(`/auth`, {
-    method: "POST",
-    body: JSON.stringify(user),
-  });
+  try {
+    const response = await apiClient<LoginResponse>(`/auth`, {
+      method: "POST",
+      body: JSON.stringify(user),
+    });
+    return response;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error("Erro ao fazer login");
+  }
 
-  console.log(response);
-  return response;
 }
 
 export async function registerUserService(
   user: RegisterUserProps
 ): Promise<RegisterUserResponse> {
-  const response = await apiClient<RegisterUserResponse>(`/user`, {
-    method: "POST",
-    body: JSON.stringify(user),
-  });
+  try {
+    const response = await apiClient<RegisterUserResponse>(`/user`, {
+      method: "POST",
+      body: JSON.stringify(user),
+    });
 
-  console.log(response);
-  return response;
+    return response;
+  } catch (
+  error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error("Erro ao registrar usuário");
+  }
+
 }
 
 export async function getUserService(token: string): Promise<User> {
-  const response = await apiClient<User>(`/auth/me`, {
-    method: "GET",
-    token,
-  });
-  return response;
+  try {
+    const response = await apiClient<User>(`/auth/me`, {
+      method: "GET",
+      token,
+    });
+    return response;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error("Erro ao buscar usuário");
+  }
+
 }

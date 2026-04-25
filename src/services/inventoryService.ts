@@ -10,20 +10,18 @@ export async function listInventoryService(): Promise<Inventory[]> {
       method: "GET",
       token,
     });
-
-    console.log("RESPONSE INVENTARIOS:", response);
-    console.log("FIM DO LOG ###########################");
-
     return response;
   } catch (error) {
-    console.error(error);
-    throw new Error("Erro ao listar inventarios");
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error("Erro ao listar inventários");
   }
 }
 
 export async function listInventoryByIdService(
   id: string
-): Promise<Inventory | null> {
+): Promise<Inventory> {
   try {
     const token = await getToken();
     const response = await apiClient<Inventory>(`/inventory?id=${id}`, {
@@ -31,8 +29,11 @@ export async function listInventoryByIdService(
       token,
     });
     return response;
-  } catch {
-    return null;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error("Erro ao listar inventário por id");
   }
 }
 
@@ -43,7 +44,7 @@ interface CreateInventoryProps {
 export async function createInventoryService(
   inventoryItems: InventoryCvs[],
   inventoryName: string
-): Promise<Inventory | null> {
+): Promise<Inventory> {
   try {
     const inventory: CreateInventoryProps = {
       inventoryName: inventoryName,
@@ -57,10 +58,10 @@ export async function createInventoryService(
     });
     return response;
   } catch (error) {
+
     if (error instanceof Error) {
-      throw new Error(error.message);
+      throw error;
     }
-    console.error(error);
-    return null;
+    throw new Error("Erro ao criar inventário");
   }
 }

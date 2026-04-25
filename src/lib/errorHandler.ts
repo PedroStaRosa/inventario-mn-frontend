@@ -1,17 +1,29 @@
 /**
  * Sanitiza mensagens de erro técnicas e retorna mensagens amigáveis ao usuário
  */
-export function getUserFriendlyErrorMessage(error: unknown): string {
-  if (error instanceof Error) {
-    const errorMessage = error.message.toLowerCase();
 
+import { redirect } from "next/navigation";
+import { removeToken } from "./auth";
+
+export interface ApiError {
+  message: string;
+  status?: number;
+  details?: unknown;
+}
+
+export async function getUserFriendlyErrorMessage(error: unknown): Promise<string> {
+  if (error instanceof Error) {
+    console.error("ERROR MESSAGE:", error);
+    const errorMessage = error.message.toLowerCase();
     // Erros de rede/conexão
     if (
       errorMessage.includes("failed to fetch") ||
       errorMessage.includes("fetch failed") ||
       errorMessage.includes("network error")
     ) {
-      return "Não foi possível conectar ao servidor. Tente novamente em instantes.";
+      redirect(
+        "/login?error=api_unavailable&message=Houve%20um%20erro.%20Tente%20novamente%20mais%20tarde."
+      );
     }
 
     // URL inválida / problema interno

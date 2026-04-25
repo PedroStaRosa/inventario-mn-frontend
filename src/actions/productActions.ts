@@ -18,21 +18,31 @@ export async function listProductAction(
     products: Product[];
   } | null
 ) {
-  const response = await listProductService();
 
-  const products: Product[] = response.products.map((product) => ({
-    lastInventory: product.lastInventory
-      ? parseDate(product.lastInventory)
-      : "",
-    createdAt: parseDate(product.createdAt),
-    updatedAt: parseDate(product.updatedAt),
-    id: product.id,
-    code: product.code,
-    description: product.description,
-    unit: product.unit,
-  }));
+  try {
+    const response = await listProductService();
 
-  return { success: true, error: "", products: products };
+    const products: Product[] = response.products.map((product) => ({
+      lastInventory: product.lastInventory
+        ? parseDate(product.lastInventory)
+        : "",
+      createdAt: parseDate(product.createdAt),
+      updatedAt: parseDate(product.updatedAt),
+      id: product.id,
+      code: product.code,
+      description: product.description,
+      unit: product.unit,
+    }));
+
+    return { success: true, error: "", products: products };
+  } catch (error) {
+    console.error("ERROR LISTING PRODUCTS:", error);
+    if (error instanceof Error) {
+      getUserFriendlyErrorMessage(error);
+    }
+    return { success: false, error: "Erro ao listar produtos", products: [] };
+  }
+
 }
 
 export async function createProductAction(

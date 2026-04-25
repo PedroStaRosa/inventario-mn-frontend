@@ -61,8 +61,6 @@ export async function getUser(): Promise<User | null> {
 
     return user;
   } catch (err) {
-    /* await removeToken(); */
-    console.log("Erro ao obter usuário:", err);
     return null;
   }
 }

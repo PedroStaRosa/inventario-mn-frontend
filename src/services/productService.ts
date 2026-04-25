@@ -23,7 +23,9 @@ export async function listProductService(): Promise<ProductListResponse> {
 
     return response;
   } catch (error) {
-    console.error(error);
+    if (error instanceof Error) {
+      throw error;
+    }
     throw new Error("Erro ao listar produtos");
   }
 }
@@ -42,7 +44,7 @@ export async function createProductService(
     return response;
   } catch (error) {
     if (error instanceof Error) {
-      throw new Error(error.message);
+      throw error;
     }
     throw new Error("Erro ao criar produto");
   }
@@ -70,7 +72,7 @@ export async function createManyProductService(
     return response;
   } catch (error) {
     if (error instanceof Error) {
-      throw new Error(error.message);
+      throw error;
     }
     throw new Error("Erro ao criar produtos");
   }
