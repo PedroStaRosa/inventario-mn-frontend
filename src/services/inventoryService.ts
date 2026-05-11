@@ -19,9 +19,7 @@ export async function listInventoryService(): Promise<Inventory[]> {
   }
 }
 
-export async function listInventoryByIdService(
-  id: string
-): Promise<Inventory> {
+export async function listInventoryByIdService(id: string): Promise<Inventory> {
   try {
     const token = await getToken();
     const response = await apiClient<Inventory>(`/inventory?id=${id}`, {
@@ -58,7 +56,6 @@ export async function createInventoryService(
     });
     return response;
   } catch (error) {
-
     if (error instanceof Error) {
       throw error;
     }

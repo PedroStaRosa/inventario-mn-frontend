@@ -1,5 +1,5 @@
 import LoginForm from "@/components/login-form";
-import { getUser, removeToken } from "@/lib/auth";
+import { getUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
 interface LoginPageProps {
