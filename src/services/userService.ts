@@ -27,7 +27,6 @@ export async function loginUserService(
     }
     throw new Error("Erro ao fazer login");
   }
-
 }
 
 export async function registerUserService(
@@ -40,14 +39,12 @@ export async function registerUserService(
     });
 
     return response;
-  } catch (
-  error) {
+  } catch (error) {
     if (error instanceof Error) {
       throw error;
     }
     throw new Error("Erro ao registrar usuário");
   }
-
 }
 
 export async function getUserService(token: string): Promise<User> {
@@ -63,5 +60,4 @@ export async function getUserService(token: string): Promise<User> {
     }
     throw new Error("Erro ao buscar usuário");
   }
-
 }
