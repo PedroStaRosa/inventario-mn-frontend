@@ -18,7 +18,6 @@ export async function listProductAction(
     products: Product[];
   } | null
 ) {
-
   try {
     const response = await listProductService();
 
@@ -33,8 +32,13 @@ export async function listProductAction(
       description: product.description,
       unit: product.unit,
     }));
-
-    return { success: true, error: "", products: products };
+    prevState = {
+      success: true,
+      error: "",
+      products: products,
+    };
+    return prevState;
+    /* return { success: true, error: "", products: products }; */
   } catch (error) {
     console.error("ERROR LISTING PRODUCTS:", error);
     if (error instanceof Error) {
@@ -42,7 +46,6 @@ export async function listProductAction(
     }
     return { success: false, error: "Erro ao listar produtos", products: [] };
   }
-
 }
 
 export async function createProductAction(
@@ -90,11 +93,27 @@ export async function createManyProductAction(
     const products = JSON.parse(productsCsv) as ProductCvs[];
 
     const response = await createManyProductService(products);
-    return { success: true, error: "", response: response };
+    prevState = {
+      success: true,
+      error: "",
+      response: response,
+    };
+    return prevState;
+    /* return { success: true, error: "", response: response }; */
   } catch (error) {
     if (error instanceof Error) {
-      return { success: false, error: getUserFriendlyErrorMessage(error) };
+      prevState = {
+        success: false,
+        error: await getUserFriendlyErrorMessage(error),
+      };
+      return prevState;
+      /* return { success: false, error: getUserFriendlyErrorMessage(error) }; */
     }
-    return { success: false, error: "Erro ao criar produtos" };
+    prevState = {
+      success: false,
+      error: "Erro ao criar produtos",
+    };
+    return prevState;
+    /* return { success: false, error: "Erro ao criar produtos" }; */
   }
 }

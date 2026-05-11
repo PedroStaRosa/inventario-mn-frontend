@@ -1,13 +1,12 @@
 "use server";
 
 import { getUserFriendlyErrorMessage } from "@/lib/errorHandler";
-import { redirect } from "next/navigation";
 import {
   createInventoryService,
   listInventoryByIdService,
   listInventoryService,
 } from "@/services/inventoryService";
-import { CreateInventoryResponse, Inventory } from "@/types/api";
+import { Inventory } from "@/types/api";
 import { InventoryCvs } from "@/types/inventoryCvs";
 
 export async function listInventoryAction(
@@ -27,13 +26,12 @@ export async function listInventoryAction(
     };
     return prevState;
   } catch (error) {
-
     if (error instanceof Error) {
       getUserFriendlyErrorMessage(error);
     }
     return {
       success: false,
-      error: getUserFriendlyErrorMessage(error),
+      error: await getUserFriendlyErrorMessage(error),
       inventories: [],
     };
   }
@@ -65,7 +63,6 @@ export async function listInventoryByIdAction(
       inventory: null,
     };
   }
-
 }
 
 export async function createInventoryAction(
@@ -102,8 +99,10 @@ export async function createInventoryAction(
     };
     return prevState;
   } catch (error) {
-
-    let message = error instanceof Error ? getUserFriendlyErrorMessage(error) : "Erro ao criar inventário";
+    const message =
+      error instanceof Error
+        ? await getUserFriendlyErrorMessage(error)
+        : "Erro ao criar inventário";
 
     return {
       success: false,

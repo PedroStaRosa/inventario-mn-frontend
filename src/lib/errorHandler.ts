@@ -3,7 +3,6 @@
  */
 
 import { redirect } from "next/navigation";
-import { removeToken } from "./auth";
 
 export interface ApiError {
   message: string;
@@ -11,7 +10,9 @@ export interface ApiError {
   details?: unknown;
 }
 
-export async function getUserFriendlyErrorMessage(error: unknown): Promise<string> {
+export async function getUserFriendlyErrorMessage(
+  error: unknown
+): Promise<string> {
   if (error instanceof Error) {
     console.error("ERROR MESSAGE:", error);
     const errorMessage = error.message.toLowerCase();

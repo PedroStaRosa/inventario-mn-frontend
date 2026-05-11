@@ -16,13 +16,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  startTransition,
-  useActionState,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { startTransition, useActionState, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { parseCsvFile } from "@/lib/parseCsvFile";
@@ -37,8 +31,10 @@ export function CreateManyProduct() {
   );
 
   const [products, setProducts] = useState<ProductCvs[]>([]);
-  const [isOverviewOpen, setIsOverviewOpen] = useState(false);
-
+  const [isOverviewDismissed, setIsOverviewDismissed] = useState(false);
+  const isOverviewOpen = Boolean(
+    state?.success && state.response && !isOverviewDismissed
+  );
   const form = useForm<CsvFormData>({
     resolver: zodResolver(csvSchema),
   });
@@ -79,6 +75,7 @@ export function CreateManyProduct() {
       toast.error("Nenhum produto para importar.");
       return;
     }
+    setIsOverviewDismissed(false);
     const formData = new FormData();
     const productsCsv = JSON.stringify(products);
     formData.append("file", productsCsv);
@@ -88,15 +85,9 @@ export function CreateManyProduct() {
   };
 
   const handleCloseOverview = () => {
-    setIsOverviewOpen(false);
+    setIsOverviewDismissed(true);
     handleClear();
   };
-
-  useEffect(() => {
-    if (state?.success && state.response) {
-      setIsOverviewOpen(true);
-    }
-  }, [state]);
 
   return (
     <Card>

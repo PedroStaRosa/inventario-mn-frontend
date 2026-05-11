@@ -61,6 +61,7 @@ export async function getUser(): Promise<User | null> {
 
     return user;
   } catch (err) {
+    console.error(err);
     return null;
   }
 }

@@ -8,10 +8,11 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Package } from "lucide-react";
+import InventoriedProductsChart from "@/components/inventoriedProducts-chart";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
   return (
-    <div className="py-10 flex flex-col gap-4 sm:flex-row">
+    <div className="py-10 gap-4 grid grid-cols-1 md:grid-cols-2">
       <Card className="mx-auto w-full max-w-xl">
         <CardHeader>
           <CardTitle className="text-xl flex items-center gap-2">
@@ -48,6 +49,8 @@ export default function DashboardPage() {
           </Button>
         </CardContent>
       </Card>
+
+      <InventoriedProductsChart />
     </div>
   );
 }
