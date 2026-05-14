@@ -44,7 +44,7 @@ export async function loginAction(
       console.log(error.message);
       return {
         success: false,
-        error: getUserFriendlyErrorMessage(error),
+        error: await getUserFriendlyErrorMessage(error),
       };
     }
 

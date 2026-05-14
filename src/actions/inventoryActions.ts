@@ -27,7 +27,7 @@ export async function listInventoryAction(
     return prevState;
   } catch (error) {
     if (error instanceof Error) {
-      getUserFriendlyErrorMessage(error);
+      await getUserFriendlyErrorMessage(error);
     }
     return {
       success: false,
@@ -55,7 +55,7 @@ export async function listInventoryByIdAction(
     return prevState;
   } catch (error) {
     if (error instanceof Error) {
-      getUserFriendlyErrorMessage(error);
+      await getUserFriendlyErrorMessage(error);
     }
     return {
       success: false,
