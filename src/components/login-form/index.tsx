@@ -19,6 +19,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginAction } from "@/actions/userActions";
 import { toast } from "sonner";
 
+const devLoginEmail = process.env.NEXT_PUBLIC_DEV_LOGIN_EMAIL ?? "";
+const devLoginPassword = process.env.NEXT_PUBLIC_DEV_LOGIN_PASSWORD ?? "";
+const showDevFillCredentials =
+  process.env.NODE_ENV === "development" &&
+  devLoginEmail.length > 0 &&
+  devLoginPassword.length > 0;
+
 export default function LoginForm() {
   const router = useRouter();
   const [state, formAction, isPending] = useActionState(loginAction, null);
@@ -116,6 +123,8 @@ export default function LoginForm() {
               </div>
             )}
 
+
+
             <Button type="submit" className="w-full" disabled={isPending}>
               {isPending ? "Entrando..." : "Entrar"}
             </Button>
@@ -131,6 +140,24 @@ export default function LoginForm() {
           </div>
         </CardContent>
       </Card>
+      {showDevFillCredentials && (
+        <div className="mt-4 p-8 bg-yellow-400 text-center">
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full border-dashed bg-red-500 text-white font-bold"
+            disabled={isPending}
+            onClick={() => {
+              form.setValue("email", devLoginEmail);
+              form.setValue("password", devLoginPassword);
+              void form.trigger(["email", "password"]);
+              toast.message("Campos preenchidos (ambiente de desenvolvimento).");
+            }}
+          >
+            Preencher login (dev)
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
