@@ -86,7 +86,7 @@ export async function registerUserAction(
     if (error instanceof Error) {
       return {
         success: false,
-        error: getUserFriendlyErrorMessage(error),
+        error: await getUserFriendlyErrorMessage(error),
       };
     }
 

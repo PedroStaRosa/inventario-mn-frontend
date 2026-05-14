@@ -42,7 +42,7 @@ export async function listProductAction(
   } catch (error) {
     console.error("ERROR LISTING PRODUCTS:", error);
     if (error instanceof Error) {
-      getUserFriendlyErrorMessage(error);
+      await getUserFriendlyErrorMessage(error);
     }
     return { success: false, error: "Erro ao listar produtos", products: [] };
   }
@@ -72,7 +72,7 @@ export async function createProductAction(
     if (error instanceof Error) {
       return {
         success: false,
-        error: getUserFriendlyErrorMessage(error),
+        error: await getUserFriendlyErrorMessage(error),
       };
     }
 
