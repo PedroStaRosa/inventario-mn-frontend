@@ -1,3 +1,14 @@
+<<<<<<< HEAD
+import { ImportInventoryCSV } from "../_components/importInventoryCSV";
+
+export default function InventoryImportPage() {
+  return (
+    <>
+      <ImportInventoryCSV />
+    </>
+  );
+}
+=======
 "use client";
 import { createInventoryAction } from "@/actions/inventoryActions";
 import { Button } from "@/components/ui/button";
@@ -300,3 +311,4 @@ const ImportInventoryPage = () => {
 };
 
 export default ImportInventoryPage;
+>>>>>>> origin/main

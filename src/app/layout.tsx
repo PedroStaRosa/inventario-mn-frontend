@@ -1,4 +1,24 @@
 import type { Metadata } from "next";
+<<<<<<< HEAD
+import {Roboto } from "next/font/google";
+import "./globals.css";
+import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/sonner";
+import { getUserService } from "@/services/user/userService";
+import { redirect } from "next/navigation";
+
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
+
+export const metadata: Metadata = {
+  title: "Mundo Novo Modules",
+  description: "Modulos para o Mundo Novo",
+};
+
+export default async function RootLayout({
+=======
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
@@ -19,10 +39,25 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
+>>>>>>> origin/main
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+<<<<<<< HEAD
+  
+  return (
+    <html
+    lang="en"
+      className={`antialiased`}
+    >
+      <body
+      className={cn("min-h-full min-w-full flex flex-col bg-gray-100", "antialiased", roboto.className)}
+      suppressHydrationWarning
+      >
+      <main>{children}</main>
+      <Toaster duration={2000} richColors position="top-right" />
+=======
   return (
     <html lang="en">
       <body
@@ -32,6 +67,7 @@ export default function RootLayout({
       >
         {children}
         <Toaster duration={2000} richColors position="top-right" />
+>>>>>>> origin/main
       </body>
     </html>
   );
