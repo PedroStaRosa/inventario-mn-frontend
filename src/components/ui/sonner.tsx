@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use client"
 
 import { useTheme } from "next-themes"
@@ -28,6 +29,33 @@ const Toaster = ({ ...props }: ToasterProps) => {
         loading: (
           <Loader2Icon className="size-4 animate-spin" />
         ),
+=======
+"use client";
+
+import {
+  CircleCheckIcon,
+  InfoIcon,
+  Loader2Icon,
+  OctagonXIcon,
+  TriangleAlertIcon,
+} from "lucide-react";
+
+import { Toaster as Sonner, type ToasterProps } from "sonner";
+
+const Toaster = ({ ...props }: ToasterProps) => {
+  /* const { theme = "system" } = useTheme() */
+
+  return (
+    <Sonner
+      theme="light"
+      className="toaster group"
+      icons={{
+        success: <CircleCheckIcon className="size-4" />,
+        info: <InfoIcon className="size-4" />,
+        warning: <TriangleAlertIcon className="size-4" />,
+        error: <OctagonXIcon className="size-4" />,
+        loading: <Loader2Icon className="size-4 animate-spin" />,
+>>>>>>> origin/main
       }}
       style={
         {
@@ -37,6 +65,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
           "--border-radius": "var(--radius)",
         } as React.CSSProperties
       }
+<<<<<<< HEAD
       toastOptions={{
         classNames: {
           toast: "cn-toast",
@@ -48,3 +77,11 @@ const Toaster = ({ ...props }: ToasterProps) => {
 }
 
 export { Toaster }
+=======
+      {...props}
+    />
+  );
+};
+
+export { Toaster };
+>>>>>>> origin/main

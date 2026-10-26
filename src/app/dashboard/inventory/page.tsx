@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { listInventoryService } from "@/services/inventory/inventoryService";
 import { InventoryTable } from "./_components/inventoryTable";
 import { Button } from "@/components/ui/button";
@@ -33,6 +34,14 @@ export default async function InventoryPage() {
         </div>
         <InventoryTable inventories={inventories} />
       </div>
+=======
+import TableListInventary from "./_components/tableListInventary";
+
+export default function InventoryPage() {
+  return (
+    <div>
+      <TableListInventary />
+>>>>>>> origin/main
     </div>
   );
 }

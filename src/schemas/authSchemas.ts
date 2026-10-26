@@ -7,7 +7,12 @@ export const loginSchema = z.object({
     .email("Email inválido"),
   password: z
     .string("Senha é obrigatória")
+<<<<<<< HEAD
     .min(1, "Senha é obrigatória"),
+=======
+    .min(8, "A senha deve ter no mínimo 8 caracteres")
+    .max(100, "A senha deve ter no máximo 100 caracteres"),
+>>>>>>> origin/main
 });
 
 export type LoginInput = z.infer<typeof loginSchema>;

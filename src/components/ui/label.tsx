@@ -1,9 +1,18 @@
+<<<<<<< HEAD
 "use client"
 
 import * as React from "react"
 import { Label as LabelPrimitive } from "radix-ui"
 
 import { cn } from "@/lib/utils"
+=======
+"use client";
+
+import * as React from "react";
+import { Label as LabelPrimitive } from "radix-ui";
+
+import { cn } from "@/lib/utils";
+>>>>>>> origin/main
 
 function Label({
   className,
@@ -18,7 +27,14 @@ function Label({
       )}
       {...props}
     />
+<<<<<<< HEAD
   )
 }
 
 export { Label }
+=======
+  );
+}
+
+export { Label };
+>>>>>>> origin/main

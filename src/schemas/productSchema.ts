@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+<<<<<<< HEAD
 export const unitSchema = [
   "UN",
   "CX",
@@ -40,19 +41,32 @@ const productCodeSchema = z.preprocess(
 );
 export const productSchema = z.object({
   code: productCodeSchema,
+=======
+const unitSchema = ["UN", "KG", "LT", "SC", "PT"] as const;
+
+export const productSchema = z.object({
+  code: z.string("Codigo é obrigatório").min(1, "Codigo é obrigatório"),
+>>>>>>> origin/main
   description: z
     .string("Descrição é obrigatória")
     .min(1, "Descrição é obrigatória"),
   unit: z.enum(unitSchema, {
     error: (issue) =>
+<<<<<<< HEAD
       issue.input === undefined
         ? "Unidade é obrigatória"
         : "Unidade inválida (UN, CX, FD, PCT, KG, LT, SC, PT)",
+=======
+      issue.input === undefined ? "Unidade é obrigatória" : "Unidade inválida",
+>>>>>>> origin/main
   }),
 });
 
 export type ProductInput = z.infer<typeof productSchema>;
+<<<<<<< HEAD
 export type ProductFormInput = z.input<typeof productSchema>;
+=======
+>>>>>>> origin/main
 
 export const csvSchema = z.object({
   file: z
@@ -84,6 +98,7 @@ export const inventoryCsvSchema = z.object({
 });
 
 export type InventoryCsvFormData = z.infer<typeof inventoryCsvSchema>;
+<<<<<<< HEAD
 
 export const suggestionSchema = z.object({
   days: z
@@ -98,3 +113,5 @@ export const suggestionSchema = z.object({
 });
 
 export type SuggestionFormData = z.infer<typeof suggestionSchema>;
+=======
+>>>>>>> origin/main

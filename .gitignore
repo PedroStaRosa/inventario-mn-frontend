@@ -1,5 +1,10 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+<<<<<<< HEAD
 
+=======
+doc_Backend/
+doc_config/
+>>>>>>> origin/main
 # dependencies
 /node_modules
 /.pnp
@@ -9,7 +14,11 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+<<<<<<< HEAD
 /cursor
+=======
+
+>>>>>>> origin/main
 # testing
 /coverage
 
@@ -39,8 +48,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+<<<<<<< HEAD
 
 # vim
 *.swp
 *.swo
 /cursor
+=======
+>>>>>>> origin/main
