@@ -15,7 +15,7 @@ doc_config/
 !.yarn/releases
 !.yarn/versions
 <<<<<<< HEAD
-/cursor
+/.cursor
 =======
 
 >>>>>>> origin/main
