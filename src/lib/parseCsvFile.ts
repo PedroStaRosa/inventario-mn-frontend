@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { inventoryCsvItemSchema } from "@/schemas/inventorySchema";
 import { CsvFormData, productSchema } from "@/schemas/productSchema";
 import { InventoryCvs } from "@/types/inventory";
@@ -16,35 +15,12 @@ export const parseCsvProductFile = async (
   data: CsvFormData,
 ): Promise<ProductCvs[] | undefined> => {
   return new Promise<ProductCvs[] | undefined>((resolve, reject) => {
-=======
-import Papa from "papaparse";
-import { ProductCvs } from "@/types/productCvs";
-import { CsvFormData } from "@/schemas/productSchema";
-import { InventoryCvs } from "@/types/inventoryCvs";
-
-interface CsvRow {
-  codigo: string;
-  descricao: string;
-  unidade: string;
-}
-
-export const parseCsvFile = async (
-  data: CsvFormData
-): Promise<ProductCvs[] | undefined> => {
-  return new Promise<ProductCvs[] | undefined>((resolve, reject) => {
-    const products: ProductCvs[] = [];
-
->>>>>>> origin/main
     Papa.parse(data.file, {
       header: true,
       skipEmptyLines: true,
       complete: (results) => {
         const headers = results.meta.fields || [];
-<<<<<<< HEAD
         const expectedHeaders = ["Codigo", "Descricao", "Unidade"];
-=======
-        const expectedHeaders = ["codigo", "descricao", "unidade"];
->>>>>>> origin/main
         const validHeaders =
           headers.length === expectedHeaders.length &&
           expectedHeaders.every((h, i) => headers[i] === h);
@@ -55,7 +31,6 @@ export const parseCsvFile = async (
           return;
         }
 
-<<<<<<< HEAD
         const rows = results.data as CsvProductRow[];
         const products: ProductCvs[] = [];
         const errors: string[] = [];
@@ -90,25 +65,6 @@ export const parseCsvFile = async (
           error instanceof Error
             ? error
             : new Error("Erro ao processar o arquivo CSV"),
-=======
-        const rows = results.data as CsvRow[];
-        rows.forEach((row) => {
-          products.push({
-            code: row.codigo,
-            description: row.descricao,
-            unit: row.unidade || "UN",
-          });
-        });
-
-        resolve(products);
-      },
-      error: (error: unknown) => {
-        /* console.error("Erro no PapaParse:", error); */
-        reject(
-          error instanceof Error
-            ? error
-            : new Error("Erro ao processar o arquivo CSV")
->>>>>>> origin/main
         );
       },
     });
@@ -118,27 +74,15 @@ export const parseCsvFile = async (
 interface CsvInventoryRow {
   Codigo: string;
   Unidade: string;
-<<<<<<< HEAD
   Digitado: string;
   Estoque: string;
-=======
-  Digitado: number;
-  Estoque: number;
->>>>>>> origin/main
   Descricao: string;
 }
 
 export const parseInventoryCsvFile = async (
-<<<<<<< HEAD
   data: CsvFormData,
 ): Promise<InventoryCvs[] | undefined> => {
   return new Promise<InventoryCvs[] | undefined>((resolve, reject) => {
-=======
-  data: CsvFormData
-): Promise<InventoryCvs[] | undefined> => {
-  return new Promise<InventoryCvs[] | undefined>((resolve, reject) => {
-    const ProducstInventory: InventoryCvs[] = [];
->>>>>>> origin/main
     Papa.parse(data.file, {
       header: true,
       skipEmptyLines: true,
@@ -148,15 +92,9 @@ export const parseInventoryCsvFile = async (
           "Codigo",
           "Descricao",
           "Unidade",
-<<<<<<< HEAD
           "Estoque",
           "Digitado",
           "Diferenca",
-=======
-          "Digitado",
-          "Diferenca",
-          "Estoque",
->>>>>>> origin/main
           "Custo",
           "Custo Diferenca",
         ];
@@ -169,7 +107,6 @@ export const parseInventoryCsvFile = async (
           reject(new Error(errorMessage));
           return;
         }
-<<<<<<< HEAD
 
         const rows = results.data as CsvInventoryRow[];
         const productsInventory: InventoryCvs[] = [];
@@ -210,34 +147,12 @@ export const parseInventoryCsvFile = async (
           error instanceof Error
             ? error
             : new Error("Erro ao processar o arquivo CSV"),
-=======
-        const rows = results.data as CsvInventoryRow[];
-        rows.forEach((row) => {
-          ProducstInventory.push({
-            productId: row.Codigo,
-            unitInput: row.Unidade,
-            stockExpected: Number(row.Estoque),
-            stockCounted: Number(row.Digitado),
-            description: row.Descricao,
-          });
-        });
-
-        resolve(ProducstInventory);
-      },
-      error: (error: unknown) => {
-        /* console.error("Erro no PapaParse:", error); */
-        reject(
-          error instanceof Error
-            ? error
-            : new Error("Erro ao processar o arquivo CSV")
->>>>>>> origin/main
         );
       },
     });
   });
 };
 
-<<<<<<< HEAD
 const formatRowError = (index: number, error: ZodError) => {
   const detail = error.issues.map((issue) => issue.message).join("; ");
   return `Linha ${index + 2}: ${detail}`;
@@ -249,14 +164,6 @@ const validateHeaders = (headers: string[], expectedHeaders: string[]) => {
   );
   const extraHeaders = headers.filter(
     (header) => !expectedHeaders.includes(header),
-=======
-const validateHeaders = (headers: string[], expectedHeaders: string[]) => {
-  const missingHeaders = expectedHeaders.filter(
-    (header) => !headers.includes(header)
-  );
-  const extraHeaders = headers.filter(
-    (header) => !expectedHeaders.includes(header)
->>>>>>> origin/main
   );
   let errorMessage = "Cabeçalho inválido, envie um arquivo CSV válido.\n";
 
