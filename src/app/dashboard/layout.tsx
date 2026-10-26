@@ -1,23 +1,22 @@
-import Header from "@/components/header";
-import { getUser } from "@/lib/auth";
+import LogoutButton from "@/components/logoutButton";
+import MenuNavigator from "@/components/navs/menuNavigator";
+import { getUserService } from "@/services/user/userService";
 import { redirect } from "next/navigation";
+import React from "react";
 
 export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const user = await getUser();
+  const user = await getUserService();
   if (!user) {
-    redirect("/login");
+    redirect("/auth/login");
   }
-
   return (
-    <div className="min-h-svh bg-muted/10">
-      <Header />
-      <main className="flex-1 px-4 pb-10 pt-6">
-        <div className="mx-auto w-full max-w-6xl">{children}</div>
-      </main>
+    <div className="flex h-screen min-w-full flex-col sm:flex-row">
+      <MenuNavigator companyName={user.name} />
+      <div className="flex min-h-0 flex-1 flex-col px-4 py-4">{children}</div>
     </div>
   );
 }
