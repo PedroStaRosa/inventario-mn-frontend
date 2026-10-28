@@ -23,7 +23,7 @@ export async function getUserFriendlyErrorMessage(
       errorMessage.includes("network error")
     ) {
       redirect(
-        "/login?error=api_unavailable&message=Houve%20um%20erro.%20Tente%20novamente%20mais%20tarde."
+        "/auth/login"
       );
     }
 
