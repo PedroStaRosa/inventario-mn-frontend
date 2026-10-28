@@ -1,19 +1,14 @@
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import PageHeader from "@/components/headers/pageHeader";
 
-export default async function InventoryLayout({
+export default function ProductsLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between mb-4">
-        <Button asChild variant="outline" className="w-fit">
-          <Link href="/dashboard">Voltar</Link>
-        </Button>
-      </div>
-      <main>{children}</main>
+    <div className="flex min-h-0 flex-1 flex-col">
+      <PageHeader title="Inventário" />
+      <main className="min-h-0 flex-1 flex px-8">{children}</main>
     </div>
   );
 }
