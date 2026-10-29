@@ -15,7 +15,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { startTransition, useActionState, useRef, useState } from "react";
+import { startTransition, useActionState, useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
@@ -34,6 +34,7 @@ export function ImportProductsCVS() {
 
   const [products, setProducts] = useState<ProductCvs[]>([]);
   const [isOverviewDismissed, setIsOverviewDismissed] = useState(false);
+  const [isProductsRepeated, setIsProductsRepeated] = useState("");
   const isOverviewOpen = Boolean(
     state?.success && state.response && !isOverviewDismissed,
   );
@@ -53,11 +54,21 @@ export function ImportProductsCVS() {
 
   const readCsvFile = async (data: CsvFormData) => {
     setProducts([]);
+    setIsProductsRepeated("");
     try {
       const products = await parseCsvProductFile(data);
       if (!products) {
         toast.error("Erro ao processar o arquivo CSV");
         return;
+      }
+
+      const productsRepeated = products.filter((product, index, self) =>
+        self.findIndex((t) => t.code === product.code) !== index,
+      );
+      if (productsRepeated.length > 0) {
+        const result = productsRepeated.map((p) => p.code).join(", ");
+        setIsProductsRepeated(result);
+        toast.error("Produtos repetidos encontrados no arquivo CSV"); 
       }
       setProducts(products);
     } catch (error) {
@@ -90,6 +101,15 @@ export function ImportProductsCVS() {
     setIsOverviewDismissed(true);
     handleClear();
   };
+
+  useEffect(() => {
+    if (state?.success && state.response) {
+      toast.success("Produtos criados com sucesso");
+      form.reset();
+    } else if (state?.error) {
+      toast.error(state.error);
+    }
+  }, [state]);
 
   return (
     <>
@@ -151,6 +171,11 @@ export function ImportProductsCVS() {
 
           {products.length > 0 && (
             <div className="space-y-4 p-4 rounded-lg flex-1">
+              {isProductsRepeated.length > 0 && (
+                <div className="rounded-lg border p-2">
+                  <FieldError> Produtos repetidos: {isProductsRepeated}</FieldError>
+                </div>
+              )}
               <h2 className="text-lg font-semibold">
                 Prévia: {products.length} produto(s) a serem importados
               </h2>
@@ -179,10 +204,10 @@ export function ImportProductsCVS() {
                   type="submit"
                   className="w-fit"
                   variant="default"
-                  disabled={isPending}
+                  disabled={isPending || isProductsRepeated.length > 0}
                   onClick={handleImportProducts}
                 >
-                  Importar
+                  Enviar
                 </Button>
                 <Button
                   type="button"
